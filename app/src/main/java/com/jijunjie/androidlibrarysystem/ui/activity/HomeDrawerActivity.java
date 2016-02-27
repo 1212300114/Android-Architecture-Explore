@@ -15,19 +15,45 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.jijunjie.androidlibrarysystem.R;
-import com.jijunjie.androidlibrarysystem.model.Book;
+import com.jijunjie.myandroidlib.view.BannerView.BannerView;
+import com.jijunjie.myandroidlib.view.BannerView.BaseBannerEntity;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.listener.FindListener;
 
 public class HomeDrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+    BannerView bannerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initView();
+
+//        BmobQuery<Book> query = new BmobQuery<>();
+//        query.setLimit(10);
+//        query.findObjects(this, new FindListener<Book>() {
+//            @Override
+//            public void onSuccess(List<Book> list) {
+//                Log.e("get!1", "yes!!!");
+//                for (Book book :
+//                        list) {
+//                    Log.e("bookName", book.getBookName());
+//                    Log.e("bookType", book.getClassName());
+//                }
+////                tvHello.setText(list.get(0).getBookName());
+//            }
+//
+//            @Override
+//            public void onError(int i, String s) {
+//                Log.e("error", "error");
+//            }
+//        });
+
+    }
+
+    private void initView() {
         setContentView(R.layout.activity_home_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,26 +78,28 @@ public class HomeDrawerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        BmobQuery<Book> query = new BmobQuery<>();
-        query.setLimit(10);
-        query.findObjects(this, new FindListener<Book>() {
-            @Override
-            public void onSuccess(List<Book> list) {
-                Log.e("get!1", "yes!!!");
-                for (Book book :
-                        list) {
-                    Log.e("bookName", book.getBookName());
-                    Log.e("bookType", book.getClassName());
-                }
-//                tvHello.setText(list.get(0).getBookName());
-            }
 
+        bannerView = (BannerView) findViewById(R.id.bannerView);
+        ArrayList<BaseBannerEntity> entities = new ArrayList<>(3);
+        BaseBannerEntity entity = new BaseBannerEntity();
+        entity.setTitle("heiheihei");
+        entity.setImgUrl("http://www.jjjc.yn.gov.cn/getimg.php?file=/upload/2016-02/26/8e6f53210380ec457e959748abf6eb75_thumb.jpg");
+        entities.add(entity);
+        entity = new BaseBannerEntity();
+        entity.setTitle("hahaha");
+        entity.setImgUrl("http://www.jjjc.yn.gov.cn/getimg.php?file=/upload/2016-02/26/fdf87c4c39d8d9924d15aab8fd698fe6_thumb.jpg");
+        entities.add(entity);
+        entity = new BaseBannerEntity();
+        entity.setTitle("lalala");
+        entity.setImgUrl("http://www.jjjc.yn.gov.cn/getimg.php?file=/upload/2016-02/25/310413c2c566746971d241fbce78bcb3_thumb.jpg");
+        entities.add(entity);
+        bannerView.setBannerEntitiesAndLoopEnable(entities, false);
+        bannerView.setOnBannerClickListener(new BannerView.onBannerClickListener() {
             @Override
-            public void onError(int i, String s) {
-                Log.e("error", "error");
+            public void click(BaseBannerEntity entity, int position) {
+                Log.e("click event", "click at position = " + position);
             }
         });
-
     }
 
     @Override
@@ -132,7 +160,7 @@ public class HomeDrawerActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        Log.e("click tag","clicked!");
+        Log.e("click tag", "clicked!");
     }
 
 }
