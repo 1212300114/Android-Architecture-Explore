@@ -16,12 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.jijunjie.androidlibrarysystem.R;
+import com.jijunjie.androidlibrarysystem.model.Book;
 import com.jijunjie.myandroidlib.view.BannerView.BannerView;
 import com.jijunjie.myandroidlib.view.BannerView.BaseBannerEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
 public class HomeDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -32,25 +35,25 @@ public class HomeDrawerActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         initView();
 
-//        BmobQuery<Book> query = new BmobQuery<>();
-//        query.setLimit(10);
-//        query.findObjects(this, new FindListener<Book>() {
-//            @Override
-//            public void onSuccess(List<Book> list) {
-//                Log.e("get!1", "yes!!!");
-//                for (Book book :
-//                        list) {
-//                    Log.e("bookName", book.getBookName());
-//                    Log.e("bookType", book.getClassName());
-//                }
-////                tvHello.setText(list.get(0).getBookName());
-//            }
-//
-//            @Override
-//            public void onError(int i, String s) {
-//                Log.e("error", "error");
-//            }
-//        });
+        BmobQuery<Book> query = new BmobQuery<>();
+        query.setLimit(10);
+        query.findObjects(this, new FindListener<Book>() {
+            @Override
+            public void onSuccess(List<Book> list) {
+                Log.e("get!1", "yes!!!");
+                for (Book book :
+                        list) {
+                    Log.e("bookName", book.getBookName());
+                    Log.e("bookType", book.getClassName());
+                }
+//                tvHello.setText(list.get(0).getBookName());
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.e("error", "error");
+            }
+        });
 
     }
 
@@ -58,7 +61,7 @@ public class HomeDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_home_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Bmob.initialize(this, "eeea90c06c19494c0c2610bb59c23e44");
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +71,7 @@ public class HomeDrawerActivity extends AppCompatActivity
             }
         });
         fab.setVisibility(View.GONE);
-        toolbar.setLogo(R.drawable.ic_menu_camera);
+//        toolbar.setLogo(R.drawable.ic_menu_camera);
         toolbar.setTitle("My DrawerActivity");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -102,10 +105,10 @@ public class HomeDrawerActivity extends AppCompatActivity
                 Log.e("click event", "click at position = " + position);
             }
         });
-        bannerView.setAutoPlay();
         BannerView bannerView1 = (BannerView) findViewById(R.id.bannerViewTwo);
         bannerView1.setBannerEntitiesAndLoopEnable(entities, true);
-        bannerView1.setAutoPlay();
+        bannerView.setAutoPlay();
+        bannerView1.setAutoPlay(3000);
         BannerView bannerView2 = (BannerView) findViewById(R.id.bannerViewThree);
         bannerView2.setBannerEntitiesAndLoopEnable(entities, true);
     }
