@@ -15,6 +15,7 @@
         });
   //设置是否可自动轮播--- 可以传入轮播间隔
   bannerView.setAutoPlay();
-  以下为效果图
   ```
+#  以下为效果图
+  
 ![](https://github.com/1212300114/Android-Architecture-Explore/raw/master/screenshot/AutoPlayBannerAndroid.gif) 
