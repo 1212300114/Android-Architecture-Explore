@@ -1,5 +1,6 @@
 package com.jijunjie.androidlibrarysystem.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -66,6 +67,7 @@ public class HomeDrawerActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+        fab.setVisibility(View.GONE);
         toolbar.setLogo(R.drawable.ic_menu_camera);
         toolbar.setTitle("My DrawerActivity");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -85,7 +87,7 @@ public class HomeDrawerActivity extends AppCompatActivity
         entity.setTitle("heiheihei");
         entity.setImgUrl("http://www.jjjc.yn.gov.cn/getimg.php?file=/upload/2016-02/26/8e6f53210380ec457e959748abf6eb75_thumb.jpg");
         entities.add(entity);
-        entity = new BaseBannerEntity();
+        entity = new BaseBannerEntity();//have to new or it will use the same object in memory
         entity.setTitle("hahaha");
         entity.setImgUrl("http://www.jjjc.yn.gov.cn/getimg.php?file=/upload/2016-02/26/fdf87c4c39d8d9924d15aab8fd698fe6_thumb.jpg");
         entities.add(entity);
@@ -100,6 +102,12 @@ public class HomeDrawerActivity extends AppCompatActivity
                 Log.e("click event", "click at position = " + position);
             }
         });
+        bannerView.setAutoPlay();
+        BannerView bannerView1 = (BannerView) findViewById(R.id.bannerViewTwo);
+        bannerView1.setBannerEntitiesAndLoopEnable(entities, true);
+        bannerView1.setAutoPlay();
+        BannerView bannerView2 = (BannerView) findViewById(R.id.bannerViewThree);
+        bannerView2.setBannerEntitiesAndLoopEnable(entities, true);
     }
 
     @Override
@@ -144,7 +152,7 @@ public class HomeDrawerActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_slideshow) {
-//            startActivity(new Intent(this ,ScrollingActivity.class));
+            startActivity(new Intent(this, ScrollingActivity.class));
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

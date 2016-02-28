@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 
 /**
  * Created by jijunjie on 16/2/26.
+ * custom viewPager to handle when viewPager inside viewPager;
+ *
  */
 public class ChildViewPager extends ViewPager {
     public ChildViewPager(Context context) {

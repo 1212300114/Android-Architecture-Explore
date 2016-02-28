@@ -19,14 +19,13 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.ExifInterface;
 import android.os.Build;
-import android.text.AndroidCharacter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.gu.baselibrary.R;
+import com.jijunjie.myandroidlib.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -53,8 +52,8 @@ public class DrawableUtils {
     }
 
     public static DisplayImageOptions DISPLAY_OPTIONS =
-            new DisplayImageOptions.Builder().showImageForEmptyUri(R.mipmap.empty_photo)
-                    .showImageOnFail(R.mipmap.empty_photo)
+            new DisplayImageOptions.Builder().showImageForEmptyUri(R.drawable.common_images_nomal)
+                    .showImageOnFail(R.drawable.common_images_nomal)
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                     .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
@@ -64,14 +63,10 @@ public class DrawableUtils {
     /**
      * 加载网络圆形图片
      *
-     * @param img
-     * @param url
+     * @param img image view to be set
+     * @param url image address at network
      */
     public static void displayRoundImgOnNet(final ImageView img, final String url) {
-        if (TextUtils.isEmpty(url)) {
-            img.setImageBitmap(readBitMap(img.getContext(), R.mipmap.empty_photo));
-            return;
-        }
         ImageLoader.getInstance().displayImage(url,
                 img,
                 DISPLAY_OPTIONS,
@@ -81,14 +76,10 @@ public class DrawableUtils {
     /**
      * 加载网络圆角图片
      *
-     * @param img
-     * @param url
+     * @param img image view to be set
+     * @param url image address at network
      */
     public static void displayRoundCornerImgOnNet(final ImageView img, final String url) {
-        if (TextUtils.isEmpty(url)) {
-            img.setImageBitmap(readBitMap(img.getContext(), R.mipmap.empty_photo));
-            return;
-        }
         ImageLoader.getInstance().displayImage(url,
                 img,
                 DISPLAY_OPTIONS,
@@ -98,8 +89,8 @@ public class DrawableUtils {
     /**
      * 本地圆角图片 ---drawable
      *
-     * @param img
-     * @param resourceId
+     * @param img        image view to be set
+     * @param resourceId bitmap resource id
      */
     public static void disPlayLocRoundCornerImg(final ImageView img, int resourceId) {
         Bitmap mBitmap = BitmapFactory.decodeResource(img.getContext().getResources(), resourceId);
@@ -109,8 +100,8 @@ public class DrawableUtils {
     /**
      * 本地圆形图片 ---drawable
      *
-     * @param img
-     * @param resourceId
+     * @param img        image view to be set
+     * @param resourceId bitmap resource id
      */
     public static void disPlayLocRoundImg(final ImageView img, int resourceId) {
         Bitmap mBitmap = BitmapFactory.decodeResource(img.getContext().getResources(), resourceId);
@@ -120,14 +111,14 @@ public class DrawableUtils {
     /**
      * 显示本地正常图片 --file
      *
-     * @param img
-     * @param url
+     * @param img image view to be set
+     * @param url local file url
      */
     public static void displayLocImg(ImageView img, String url) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        if (url.startsWith("file:") == false) {
+        if (!url.startsWith("file:")) {
             url = "file:/" + url;
         }
         ImageLoader.getInstance().displayImage(url, img, DISPLAY_OPTIONS, new AnimateFirstDisplayListener());
@@ -136,14 +127,14 @@ public class DrawableUtils {
     /**
      * 本地圆角图片 ---file
      *
-     * @param img
-     * @param url
+     * @param img image view to be set
+     * @param url local file url
      */
     public static void disPlayLocRoundCornerImg(ImageView img, String url) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        if (url.startsWith("file:") == false) {
+        if (!url.startsWith("file:")) {
             url = "file://" + url;
         }
         ImageLoader.getInstance().displayImage(url, img, DISPLAY_OPTIONS, new AnimateFirstDisplayRoundCornerListener());
@@ -152,14 +143,14 @@ public class DrawableUtils {
     /**
      * 本地圆形图片 ---file
      *
-     * @param img
-     * @param url
+     * @param img image view to be set
+     * @param url local file url
      */
     public static void disPlayLocRoundImg(ImageView img, String url) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        if (url.startsWith("file:") == false) {
+        if (!url.startsWith("file:")) {
             url = "file:/" + url;
         }
         ImageLoader.getInstance().displayImage(url, img, DISPLAY_OPTIONS, new AnimateFirstDisplayRoundListener());
@@ -168,8 +159,8 @@ public class DrawableUtils {
     /**
      * 用于显示普通的网络图片
      *
-     * @param img
-     * @param url
+     * @param img image view to be set
+     * @param url network address
      */
     public static void displayNormalImgOnNet(final ImageView img, final String url) {
         if (TextUtils.isEmpty(url)) {
@@ -181,7 +172,7 @@ public class DrawableUtils {
     /**
      * 显示根据布局自适应大小的网络正常图片
      *
-     * @param imageView
+     * @param imageView image view to be set
      * @param url
      */
     public static void displayAutoImgOnNet(final ImageView imageView, final String url) {
@@ -313,7 +304,8 @@ public class DrawableUtils {
      */
     public static void FadeInDisplay(ImageView imageView, Bitmap bitmap) {
         final TransitionDrawable transitionDrawable =
-                new TransitionDrawable(new Drawable[]{new ColorDrawable(android.R.color.transparent),
+                new TransitionDrawable(new Drawable[]{new ColorDrawable(imageView.getContext()
+                        .getResources().getColor(android.R.color.transparent)),
                         new BitmapDrawable(imageView.getResources(), bitmap)});
         imageView.setImageDrawable(transitionDrawable);
         transitionDrawable.startTransition(500);
