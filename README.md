@@ -7,6 +7,7 @@
   bannerView = (BannerView) findViewById(R.id.bannerView);
   //为轮播图设置数据并且 它是否为无线轮播
   bannerView.setBannerEntitiesAndLoopEnable(entities, false);
+  // 事件回调。这里我把数据基础类型绑定了应该写泛型比较好。
   bannerView.setOnBannerClickListener(new BannerView.onBannerClickListener() {
             @Override
             public void click(BaseBannerEntity entity, int position) {
