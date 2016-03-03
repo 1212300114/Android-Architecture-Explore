@@ -16,6 +16,8 @@
         });
   //设置是否可自动轮播--- 可以传入轮播间隔
   bannerView.setAutoPlay();
+  //停止播放
+  bannerView.stopPlay();
   ```
 #  以下为效果图
   
