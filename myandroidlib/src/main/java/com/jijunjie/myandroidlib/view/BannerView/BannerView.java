@@ -3,10 +3,8 @@ package com.jijunjie.myandroidlib.view.BannerView;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
@@ -37,7 +35,6 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
     private BannerIndicatorAdapter indicatorAdapter;
     //callback of click
     private onBannerClickListener onBannerClickListener;
-    private Handler mHandler;
 
     /**
      * Instantiates a new Banner view.
@@ -181,11 +178,17 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
     /**
      * Sets auto play.
      */
+    long delay = 2000;
+    boolean autoPlay = false;
+
+    public void setAutoPlay(long delay) {
+        this.delay = delay;
+        autoPlay = true;
+        postDelayed(playTask, delay);
+    }
+
     public void setAutoPlay() {
-        if (loopEnabled) {
-//            currentItem = 1;
-        }
-        postDelayed(playTask, 2000);
+        setAutoPlay(delay);
     }
 
     /**
@@ -200,16 +203,23 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
         public void run() {
             currentItem++;
             currentItem = currentItem % bannerEntities.size();
-            Log.e("current item = ", "current = " + currentItem);
+//            Log.e("current item = ", "current = " + currentItem);
             if (loopEnabled) {
-
                 bannerViewPager.setCurrentItem(currentItem + 1);
             } else {
                 bannerViewPager.setCurrentItem(currentItem);
             }
-            postDelayed(playTask, 2000);
+//            Log.e("task delay", delay +"");
+            if (autoPlay) {
+                postDelayed(playTask, delay);
+            }
         }
     };
+
+    //to stop auto play thread;
+    public void stopAutoPlay() {
+        autoPlay = false;
+    }
 
     /**
      * The Current position.
@@ -232,7 +242,7 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
         }
         bannerTitle.setText(bannerEntities.get(position).getTitle());
         indicatorAdapter.setCurrent(position);
-        Log.e("pageSelected", "selected position" + position);
+//        Log.e("pageSelected", "selected position" + position);
     }
 
     private int generateCorrectPosition(int position) {
@@ -251,13 +261,18 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
     // do scroll inside here
     @Override
     public void onPageScrollStateChanged(int state) {
-        Log.e("pageChange", "current state = " + state + "currentPosition" + currentPosition);
-        if (state == ViewPager.SCROLL_STATE_IDLE && loopEnabled) {
-            //when it finish animation move to the correct position
-            if (currentPosition == 0) {
-                bannerViewPager.setCurrentItem(bannerEntities.size(), false);
-            } else if (currentPosition == bannerEntities.size() + 1) {
-                bannerViewPager.setCurrentItem(1, false);
+//        Log.e("pageChange", "current state = " + state + "currentPosition" + currentPosition);
+        if (state == ViewPager.SCROLL_STATE_IDLE) {
+            if (loopEnabled) {
+                currentItem = currentPosition + 1;
+                //when it finish animation move to the correct position
+                if (currentPosition == 0) {
+                    bannerViewPager.setCurrentItem(bannerEntities.size(), false);
+                } else if (currentPosition == bannerEntities.size() + 1) {
+                    bannerViewPager.setCurrentItem(1, false);
+                }
+            }else {
+                currentItem = currentPosition;
             }
         }
     }
