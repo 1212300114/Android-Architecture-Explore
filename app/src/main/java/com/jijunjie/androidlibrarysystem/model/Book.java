@@ -1,6 +1,7 @@
 package com.jijunjie.androidlibrarysystem.model;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobFile;
 
 /**
  * Created by jijunjie on 16/1/14.
@@ -13,6 +14,7 @@ public class Book extends BmobObject {
     private String booCountry;
     private Integer bookCount;
     private Integer bookLeft;
+    private BmobFile bookImage;
 
     public Integer getBookId() {
         return bookId;
@@ -70,5 +72,13 @@ public class Book extends BmobObject {
 
     public void setBookName(String bookName) {
         this.bookName = bookName;
+    }
+
+    public void setBookImage(BmobFile bookImage) {
+        this.bookImage = bookImage;
+    }
+
+    public BmobFile getBookImage() {
+        return bookImage;
     }
 }

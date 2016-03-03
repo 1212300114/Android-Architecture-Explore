@@ -15,6 +15,10 @@ public class NetWorkState {
     public static final int TYPE_2G = 1;
     public static final int TYPE_3G = 2;
 
+    private NetWorkState() {
+        throw new UnsupportedOperationException("this class can't be instantiated");
+    }
+
     /**
      * To checkout network enable
      *

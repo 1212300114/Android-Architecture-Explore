@@ -20,7 +20,7 @@ public class InstantNetworkChangeManager {
      * Hide the default construct method to use getInstance to get an singleton instance
      */
     private InstantNetworkChangeManager() {
-
+        throw new UnsupportedOperationException("should use getInstance() to initialize");
     }
 
     /**

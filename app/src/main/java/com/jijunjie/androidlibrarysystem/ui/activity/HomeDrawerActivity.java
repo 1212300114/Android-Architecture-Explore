@@ -14,18 +14,24 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.jijunjie.androidlibrarysystem.R;
-import com.jijunjie.myandroidlib.view.BannerView.BannerView;
+import com.jijunjie.androidlibrarysystem.adapter.PagerFragmentAdapter;
+
+import java.util.ArrayList;
 
 public class HomeDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private int[] titileIDs = new int[]{R.string.title_first, R.string.title_second, R.string.title_third};
+    private int[] titleIDs = new int[]{R.string.title_first, R.string.title_second, R.string.title_third};
+    private PagerFragmentAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         initView();
     }
 
@@ -47,9 +53,21 @@ public class HomeDrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         //set up view pager
         viewPager = (ViewPager) findViewById(R.id.viewPager);
+        adapter = new PagerFragmentAdapter(getSupportFragmentManager());
+//        adapter.setData();
         // TODO: 16/3/2  need set adapter
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+
+    }
+
+    private ArrayList<String> generateTitles() {
+        ArrayList<String> titles = new ArrayList<>();
+        for (int i = 0; i < titleIDs.length; i++) {
+            titles.add(getResources().getString(titleIDs[i]));
+        }
+        return titles;
+
     }
 
     @Override
@@ -79,7 +97,6 @@ public class HomeDrawerActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            bannerView.stopAutoPlay();
             return true;
         }
 
@@ -117,6 +134,5 @@ public class HomeDrawerActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        bannerView.stopAutoPlay();
     }
 }

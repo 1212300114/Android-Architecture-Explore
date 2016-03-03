@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android Library System</string>
+    <string name="app_name">移动图书馆</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -10,9 +10,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
 
-
-
-
+    <string name="title_first">书籍查询</string>
+    <string name="title_second">书籍管理</string>
+    <string name="title_third">福利</string>
 
 
 

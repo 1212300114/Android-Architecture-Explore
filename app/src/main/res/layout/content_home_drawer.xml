@@ -19,30 +19,13 @@
     <!--android:layout_width="wrap_content"-->
     <!--android:layout_height="wrap_content"-->
     <!--android:text="Hello World!" />-->
-    <ScrollView
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <com.jijunjie.myandroidlib.view.BannerView.BannerView
-                android:id="@+id/bannerView"
-                android:layout_width="match_parent"
-                android:layout_height="180dp" />
-
-            <com.jijunjie.myandroidlib.view.BannerView.BannerView
-                android:id="@+id/bannerViewTwo"
-                android:layout_width="match_parent"
-                android:layout_height="180dp" />
-
-            <com.jijunjie.myandroidlib.view.BannerView.BannerView
-                android:id="@+id/bannerViewThree"
-                android:layout_width="match_parent"
-                android:layout_height="180dp" />
-        </LinearLayout>
-
-    </ScrollView>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

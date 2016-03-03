@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Window;
 
 import com.jijunjie.myandroidlib.R;
 
@@ -24,12 +23,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         setContentView(toGetContentResId());
-        setSupportActionBar(toGetToolBar());
+        if (toGetToolBar() != null) {
+            setSupportActionBar(toGetToolBar());
+        }
         onActivityCreateCallBack();
+
     }
 
     /**
@@ -63,7 +64,9 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public void launchActivityWithAnimation(@NonNull Context context, @NonNull Class targetActivity, @Nullable Bundle extras, @Nullable int pushInAnimationId) {
         Intent intent = new Intent(context, targetActivity);
-        intent.putExtras(extras);
+        if (extras != null) {
+            intent.putExtras(extras);
+        }
         startActivity(intent);
         if (pushInAnimationId != 0) {
             defaultLauncherId = pushInAnimationId;
