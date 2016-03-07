@@ -1,4 +1,4 @@
-package com.jijunjie.androidlibrarysystem.ui.activity.fragments;
+package com.jijunjie.androidlibrarysystem.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
