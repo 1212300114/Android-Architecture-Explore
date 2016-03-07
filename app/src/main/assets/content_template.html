@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta id="viewport" name="viewport"
+          content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+    <script src="file:///android_asset/lazyload/jquery.min.js" type="text/javascript"></script>
+    <script src="file:///android_asset/lazyload/jquery.lazyload.js" type="text/javascript"></script>
+    <script src="file:///android_asset/lazyload/wsinit.js" type="text/javascript"></script>
+    <style>
+        body {font-family: arial, sans-serif;margin: 0;padding: 0;word-wrap: break-word;}
+        .wrapper{padding:10px;}
+        h4.title {color: #333;font-size: 20px; margin:0px; padding:10px 0px; font-weight:900;}
+        .subtitle {color: #8e8e8e;font-size: 12px; padding-bottom:15px;}
+        #body_section {color: #333;font-size: 16px;line-height: 140%;overflow-x: hidden}
+        #body_section.font_largex {font-size: 22px;}
+        #body_section.font_large {font-size: 19px;}
+        #body_section.font_small {font-size: 16px;}
+        #body_section img {max-width: 100% !important;height: auto !important;text-align: center}
+        #video{z-index:1; position:relative;width:320;height:225;}
+        #video .vicon img{border:none !important}
+    </style>
+    <script type="text/javascript">
+/*
+$(function () {
+	$("img").lazyload({    
+		placeholder : "grey.gif",    
+		effect : "fadeIn"   
+	});
+	var tags = document.getElementById("content").getElementsByTagName("img");
+	for (i = 0; i < tags.length; i++) {
+		tags[i].setAttribute("onclick", "location.href='" + tags[i].getAttribute("src") + "'");
+	}
+});
+*/
+
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <h4 class="title">{Title}</h4>
+
+    <div class="subtitle">{Originate} &nbsp;&nbsp; {PublishDate}</div>
+    <div id="body_section">
+        <div id="video" align="center">
+            <div id="videoImg">{VideoHtml}</div>
+            <div class="vicon" style="{playerPosition}">{VideoPlayer}</div>
+        </div>
+        <div align="center">{ImageHtml}</div>
+        <div id="content">{Content}</div>
+    </div>
+    <script type="text/javascript">
+	window.onload = function(){
+        var tags = document.getElementById("body_section").getElementsByTagName("img");
+        alert("size:"+tags.length);
+        for ( i = 0; i < tags.length; i++) {
+            if(tags[i].getAttribute("type") != "adv")
+                tags[i].setAttribute("onclick", "location.href='" + tags[i].getAttribute("src") + "'");
+        }
+    } 	
+	function fontSize(n){
+		switch(n){
+			case 16:document.getElementById("body_section").className = "font_small";break;
+			case 18:document.getElementById("body_section").className = "font_large";break;
+			case 20:document.getElementById("body_section").className = "font_largex";break;
+		}
+	}
+
+    </script>
+</body>
+</html>

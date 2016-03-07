@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <script src="file:///android_asset/lazyload/jquery.js" type="text/javascript"></script>
+    <script src="file:///android_asset/lazyload/init.js" type="text/javascript"></script>
+    <style>
+        *{margin: 0;padding: 0;}
+        body {font-family: arial, sans-serif;background-color:#f2f2f2;word-wrap: break-word;}
+        #title_section {padding:8px;}
+        #title {color: #333; font-size: 18px;}
+        #subtitle {color: #8e8e8e;font-size: 12px;padding-top: 10px;padding-bottom: 10px}
+        #body_section {padding: 0px 8px;color: #333;font-size: 20px;line-height: 140%;overflow-x:
+        hidden}
+        #body_section.font_largex {font-size: 22px;}
+        #body_section.font_large {font-size: 20px;}
+        #body_section.font_small {font-size: 18px;}
+        #body_section img {background:url(file:///android_asset/lazyload/grey.png) center center
+        no-repeat;max-width: 98% !important;height: auto !important;margin:10px auto
+        5px;display:block;border: 1px solid #ccc;padding: 1px;text-align: center}
+        #video{z-index:1; position:relative;width:320;height:225;}
+        #video .vicon img{border:none !important; background:none;}
+        #content {color: #888888;}
+    </style>
+</head>
+<body>
+<div id="title_section" style="display:{displayTitleSection};">
+    <div id="title">{Title}</div>
+    <div id="subtitle" style="display:{displaySource};">
+        来源：{Originate}&nbsp;&nbsp;发布时间：{PublishDate}
+    </div>
+</div>
+<div id="body_section">
+    <div id="content">
+        {Content}<br/>
+    </div>
+</div>
+<script type="text/javascript">
+
+		
+		
+		function fontSize(n){
+			switch(n){
+				case 1:document.getElementById("body_section").className = "font_small";break;
+				case 2:document.getElementById("body_section").className = "font_large";break;
+				case 3:document.getElementById("body_section").className = "font_largex";break;
+			}
+        }
+
+
+</script>
+</body>
+</html>
