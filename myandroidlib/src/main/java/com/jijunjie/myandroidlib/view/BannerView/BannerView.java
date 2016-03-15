@@ -110,6 +110,7 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
         bannerIndicator = (GridView) rootView.findViewById(R.id.bannerIndicator);
         bannerIndicator.setAdapter(indicatorAdapter);
         bannerTitle = (TextView) rootView.findViewById(R.id.bannerTitle);
+        this.setVisibility(GONE);
     }
 
 
@@ -156,6 +157,7 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
     public void setBannerEntitiesAndLoopEnable(final ArrayList<BaseBannerEntity> bannerEntities, boolean loopEnabled) {
         this.bannerEntities = bannerEntities;
         this.loopEnabled = loopEnabled;
+
         // set data to view pager adapter
         pageAdapter.setDataWithLoopEnabled(bannerEntities, loopEnabled);
         if (loopEnabled) {
@@ -172,6 +174,7 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
         // request layout toto make new layout
         bannerIndicator.requestLayout();
         bannerTitle.setText(bannerEntities.get(0).getTitle());
+        this.setVisibility(VISIBLE);
     }
 
 
@@ -201,17 +204,22 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
     private Runnable playTask = new Runnable() {
         @Override
         public void run() {
-            currentItem++;
-            currentItem = currentItem % bannerEntities.size();
+            try {
+                currentItem++;
+                currentItem = currentItem % bannerEntities.size();
 //            Log.e("current item = ", "current = " + currentItem);
-            if (loopEnabled) {
-                bannerViewPager.setCurrentItem(currentItem + 1);
-            } else {
-                bannerViewPager.setCurrentItem(currentItem);
-            }
+                if (loopEnabled) {
+                    bannerViewPager.setCurrentItem(currentItem + 1);
+                } else {
+                    bannerViewPager.setCurrentItem(currentItem);
+                }
 //            Log.e("task delay", delay +"");
-            if (autoPlay) {
-                postDelayed(playTask, delay);
+                if (autoPlay) {
+                    postDelayed(playTask, delay);
+                }
+            } catch (Exception e) {
+                autoPlay = false;
+                e.printStackTrace();
             }
         }
     };
@@ -271,7 +279,7 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
                 } else if (currentPosition == bannerEntities.size() + 1) {
                     bannerViewPager.setCurrentItem(1, false);
                 }
-            }else {
+            } else {
                 currentItem = currentPosition;
             }
         }

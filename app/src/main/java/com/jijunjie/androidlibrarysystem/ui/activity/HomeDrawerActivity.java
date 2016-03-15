@@ -1,9 +1,9 @@
 package com.jijunjie.androidlibrarysystem.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -11,12 +11,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.jijunjie.androidlibrarysystem.R;
 import com.jijunjie.androidlibrarysystem.adapter.PagerFragmentAdapter;
+import com.jijunjie.androidlibrarysystem.ui.fragments.SearchFragment;
 
 import java.util.ArrayList;
 
@@ -40,8 +40,6 @@ public class HomeDrawerActivity extends AppCompatActivity
         //set up tool bar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getResources().getString(R.string.app_name));
-
         //set up drawer control to tool bar
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -54,20 +52,36 @@ public class HomeDrawerActivity extends AppCompatActivity
         //set up view pager
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         adapter = new PagerFragmentAdapter(getSupportFragmentManager());
+        adapter.setData(generateFragments(), generateTitles());
 //        adapter.setData();
         // TODO: 16/3/2  need set adapter
+        viewPager.setAdapter(adapter);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
 
     }
 
+
+    /**
+     * to get the tab title of the fragment
+     *
+     * @return the titl
+     */
     private ArrayList<String> generateTitles() {
         ArrayList<String> titles = new ArrayList<>();
-        for (int i = 0; i < titleIDs.length; i++) {
-            titles.add(getResources().getString(titleIDs[i]));
+        for (int titleID : titleIDs) {
+            titles.add(getResources().getString(titleID));
         }
         return titles;
+    }
 
+    private ArrayList<Fragment> generateFragments() {
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        int count = titleIDs.length;
+        while (count-- > 0) {
+            fragments.add(new SearchFragment());
+        }
+        return fragments;
     }
 
     @Override
@@ -81,27 +95,6 @@ public class HomeDrawerActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -112,7 +105,6 @@ public class HomeDrawerActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_slideshow) {
-            startActivity(new Intent(this, ScrollingActivity.class));
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

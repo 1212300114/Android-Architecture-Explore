@@ -8,7 +8,5 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/user_center"
-        android:orderInCategory="101"
-        android:title="个人中心"
-         />
+        android:title="个人中心" />
 </menu>

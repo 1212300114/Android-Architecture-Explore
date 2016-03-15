@@ -54,6 +54,7 @@ public class DrawableUtils {
     public static DisplayImageOptions DISPLAY_OPTIONS =
             new DisplayImageOptions.Builder().showImageForEmptyUri(R.drawable.common_images_nomal)
                     .showImageOnFail(R.drawable.common_images_nomal)
+                    .showImageOnLoading(R.drawable.common_images_nomal)
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                     .imageScaleType(ImageScaleType.IN_SAMPLE_INT)

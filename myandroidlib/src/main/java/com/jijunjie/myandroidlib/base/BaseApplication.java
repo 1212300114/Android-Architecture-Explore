@@ -23,6 +23,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //init bmob cloud database
         Bmob.initialize(this, "eeea90c06c19494c0c2610bb59c23e44");
         sharedApplication = this;
         initImageLoader();

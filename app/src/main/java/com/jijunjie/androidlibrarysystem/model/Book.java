@@ -9,19 +9,28 @@ import cn.bmob.v3.datatype.BmobFile;
 public class Book extends BmobObject {
     private String bookName;
     private String className;
-    private Integer bookId;
+    private Integer bookID;
     private String bookAuthor;
     private String booCountry;
     private Integer bookCount;
     private Integer bookLeft;
     private BmobFile bookImage;
+    private String bookPress;
 
-    public Integer getBookId() {
-        return bookId;
+    public String getBookPress() {
+        return bookPress;
     }
 
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
+    public void setBookPress(String bookPress) {
+        this.bookPress = bookPress;
+    }
+
+    public Integer getBookID() {
+        return bookID;
+    }
+
+    public void setBookID(Integer bookID) {
+        this.bookID = bookID;
     }
 
     public String getBookAuthor() {
