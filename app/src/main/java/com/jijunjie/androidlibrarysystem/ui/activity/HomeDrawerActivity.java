@@ -13,10 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.jijunjie.androidlibrarysystem.R;
 import com.jijunjie.androidlibrarysystem.adapter.PagerFragmentAdapter;
-import com.jijunjie.androidlibrarysystem.ui.fragments.SearchFragment;
+import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentBeauty;
+import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentFavor;
+import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentSearch;
 
 import java.util.ArrayList;
 
@@ -77,12 +80,13 @@ public class HomeDrawerActivity extends AppCompatActivity
 
     private ArrayList<Fragment> generateFragments() {
         ArrayList<Fragment> fragments = new ArrayList<>();
-        int count = titleIDs.length;
-        while (count-- > 0) {
-            fragments.add(new SearchFragment());
-        }
+        fragments.add(new FragmentFavor());
+        fragments.add(new FragmentSearch());
+        fragments.add(new FragmentBeauty());
         return fragments;
     }
+
+    long lastPressTime = 0;
 
     @Override
     public void onBackPressed() {
@@ -90,7 +94,15 @@ public class HomeDrawerActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            long currentTimeMillis = System.currentTimeMillis();
+
+            if ((currentTimeMillis - lastPressTime) > 3000) {
+                lastPressTime = currentTimeMillis;
+                Toast.makeText(HomeDrawerActivity.this, "再次按下退出程序", Toast.LENGTH_SHORT).show();
+            } else {
+
+                super.onBackPressed();
+            }
 
         }
     }

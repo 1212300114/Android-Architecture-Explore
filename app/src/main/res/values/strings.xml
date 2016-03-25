@@ -11,9 +11,11 @@
     <string name="title_activity_scrolling">ScrollingActivity</string>
 
     <string name="title_first">热门书籍</string>
-    <string name="title_second">书籍管理</string>
+    <string name="title_second">搜索</string>
     <string name="title_third">福利</string>
-
+    
+    <string name="navigation_title_first">首页</string>
+    <string name="navigation_title_second">管理者</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

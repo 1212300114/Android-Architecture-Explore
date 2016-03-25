@@ -2,6 +2,8 @@ package com.jijunjie.androidlibrarysystem.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,6 +21,7 @@ import com.jijunjie.myandroidlib.utils.ScreenUtils;
 import com.jijunjie.myandroidlib.view.BannerView.BannerView;
 import com.jijunjie.myandroidlib.view.BannerView.BaseBannerEntity;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +33,13 @@ import cn.bmob.v3.listener.FindListener;
  * the Search fragment show some book in favourite
  * Created by jijunjie on 16/3/2.
  */
-public class SearchFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private BannerView banner;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView lvBooks;
     private FavourListAdapter adapter;
+    private Handler handler = new MyHandler(this);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +51,24 @@ public class SearchFragment extends Fragment implements SwipeRefreshLayout.OnRef
     public void onAttach(Context context) {
         Log.d("fragment log", "attach");
         super.onAttach(context);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
+        //需要手动调一次回调,延时调 ui 效果好一些
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FragmentFavor.this.onRefresh();
+            }
+        }, 1000);
     }
 
     @Nullable
@@ -66,22 +88,13 @@ public class SearchFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
 
     private View createFragmentView(LayoutInflater inflater) {
-        View rootView = inflater.inflate(R.layout.fragment_search, null);
+        View rootView = inflater.inflate(R.layout.fragment_favor, null);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorAccentDark,
                 R.color.colorPrimary, R.color.colorPrimaryDark);
-        //需要post 才会执行动画
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-            }
-        });
         swipeRefreshLayout.startNestedScroll(View.SCROLL_AXIS_VERTICAL);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        //需要手动调一次回调
-        this.onRefresh();
 
         lvBooks = (ListView) rootView.findViewById(R.id.lvBooks);
         lvBooks.setVisibility(View.GONE);
@@ -161,5 +174,18 @@ public class SearchFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onRefresh() {
         queryData();
+    }
+
+    static class MyHandler extends Handler {
+        private final WeakReference<FragmentFavor> weakReference;
+
+        public MyHandler(FragmentFavor fragmentFavor) {
+            this.weakReference = new WeakReference<>(fragmentFavor);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
     }
 }

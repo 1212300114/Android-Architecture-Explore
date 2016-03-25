@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipeRefresh"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+
+    <com.jijunjie.myandroidlib.view.ClearableEditText
+        android:id="@+id/etSearch"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/icon_grass"
+        android:hint="请输入关键字"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:padding="10dp"
+        android:singleLine="true" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabSelectedTextColor="@color/colorPrimary" />
 
     <ListView
-        android:id="@+id/lvBooks"
+        android:id="@+id/lvHistory"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:divider="@drawable/list_divider_background"
+        android:dividerHeight="1dp" />
 
-</android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>
