@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jijunjie.androidlibrarysystem.R;
@@ -104,32 +106,76 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
         banner.getLayoutParams().height = (int) (ScreenUtils.getScreenWidth(getActivity()) * 0.6);
         banner.invalidate();
         lvBooks.addHeaderView(banner);
+        lvBooks.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                    queryData(false);
+                Log.e("scroll tag", firstVisibleItem + "---" + visibleItemCount + "---" + totalItemCount);
+                if (firstVisibleItem + visibleItemCount > totalItemCount - 4 && hasMore && !isLoading) {
+
+                    queryData(false);
+                }
+            }
+        });
         return rootView;
     }
 
     /**
      * query data from cloud database
      */
-    private void queryData() {
+
+    int pageCount = 10;
+    int pageIndex = 0;
+    boolean hasMore = true;
+    boolean isLoading = false;
+
+    private void queryData(final boolean isRefresh) {
         final BmobQuery<Book> bookQuery = new BmobQuery<>();
+        bookQuery.setLimit(pageCount);
+        if (isRefresh) {
+            pageIndex = 0;
+            hasMore = true;
+        } else {
+            if (!isLoading) {
+                pageIndex++;
+            }
+            isLoading = true;
+            bookQuery.setSkip(pageIndex * pageCount);
+        }
+        Log.e("scroll tag", "page index = " + pageIndex);
         bookQuery.findObjects(getActivity(), new FindListener<Book>() {
             @Override
             public void onSuccess(List<Book> list) {
-                Log.d("success", "success");
+                Log.e("success", "success and size = " + list.size() + "   and page index = " + pageIndex);
                 ArrayList<BaseBannerEntity> entities = new ArrayList<BaseBannerEntity>();
+                if (list.size() == 0) {
+                    hasMore = false;
+                    Toast.makeText(getActivity(), "没有更多啦！", Toast.LENGTH_SHORT).show();
+                }
+                isLoading = false;
                 for (Book book : list) {
                     String json = new Gson().toJson(book);
                     Log.e("book json String", json);
-                    if (book.getClassName().equals("管理")) {
+                    if (book.getClassName().equals("教育")) {
                         BaseBannerEntity entity = new BaseBannerEntity();
                         entity.setImgUrl(book.getBookImage().getFileUrl(getActivity()));
                         entity.setTitle(book.getBookName());
                         entities.add(entity);
                     }
                 }
+                Log.e("success", list.size() + "" + list.getClass().toString() + "------" + entities.size());
                 lvBooks.setVisibility(View.VISIBLE);
-                banner.setBannerEntitiesAndLoopEnable(entities, true);
-                adapter.setBooks((ArrayList<Book>) list);
+                if (isRefresh) {
+                    banner.setBannerEntitiesAndLoopEnable(entities, true);
+                    adapter.setBooks((ArrayList<Book>) list);
+                } else {
+                    adapter.addMore((ArrayList<Book>) list);
+                }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -173,7 +219,7 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onRefresh() {
-        queryData();
+        queryData(true);
     }
 
     static class MyHandler extends Handler {

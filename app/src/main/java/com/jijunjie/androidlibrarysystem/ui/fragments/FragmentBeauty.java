@@ -36,7 +36,7 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
     private SwipeRefreshLayout swipeRefreshLayout;
     private MyHandler handler = new MyHandler(this);
     private int currentPage = 1;
-
+    private boolean isLoading = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,7 +61,6 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int[] lastVisibleItem = layoutManager.findLastVisibleItemPositions(null);
                 int totalItem = layoutManager.getItemCount();
-                Log.e("tag position", lastVisibleItem[1] + "");
                 if (totalItem - lastVisibleItem[1] < 4) {
                     addMoreData();
                 }
@@ -106,9 +105,7 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
 
             @Override
             public void onResponse(String response) {
-                Log.e("tag", response);
                 DataResults dataResults = new Gson().fromJson(response, DataResults.class);
-                Log.e("tag", dataResults.isError() + "");
                 adapter.setList(dataResults.getResults());
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -117,6 +114,7 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
 
     private void addMoreData() {
         currentPage++;
+        Log.e("page tag", "page = " + currentPage);
         OkHttpUtils.get().url(Constants.beautyUrl + currentPage).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
