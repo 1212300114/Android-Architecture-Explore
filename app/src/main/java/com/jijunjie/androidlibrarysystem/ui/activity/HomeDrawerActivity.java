@@ -1,5 +1,6 @@
 package com.jijunjie.androidlibrarysystem.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.jijunjie.androidlibrarysystem.R;
@@ -20,6 +22,7 @@ import com.jijunjie.androidlibrarysystem.adapter.PagerFragmentAdapter;
 import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentBeauty;
 import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentFavor;
 import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentSearch;
+import com.jijunjie.myandroidlib.utils.KeyBoardUtils;
 
 import java.util.ArrayList;
 
@@ -61,14 +64,35 @@ public class HomeDrawerActivity extends AppCompatActivity
         viewPager.setAdapter(adapter);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+                    View view = getWindow().peekDecorView();
+                    if (view != null) {
+                        InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (KeyBoardUtils.isKeyboardOpened(HomeDrawerActivity.this))
+                            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                }
+            }
+        });
     }
-
 
     /**
      * to get the tab title of the fragment
      *
-     * @return the titl
+     * @return the title
      */
     private ArrayList<String> generateTitles() {
         ArrayList<String> titles = new ArrayList<>();

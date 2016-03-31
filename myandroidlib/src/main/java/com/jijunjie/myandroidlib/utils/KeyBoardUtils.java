@@ -41,4 +41,16 @@ public class KeyBoardUtils {
         manager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
+    /**
+     * keyboard state
+     *
+     * @param context context
+     * @return if soft input open
+     */
+
+    public static boolean isKeyboardOpened(Context context) {
+        InputMethodManager manager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        return manager.isActive();
+    }
+
 }

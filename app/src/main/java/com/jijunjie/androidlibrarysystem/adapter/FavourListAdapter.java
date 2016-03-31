@@ -29,9 +29,16 @@ public class FavourListAdapter extends BaseAdapter {
     }
 
     public void setBooks(ArrayList<Book> books) {
-        this.books = books;
+        this.books.clear();
+        this.books.addAll(books);
         notifyDataSetChanged();
     }
+
+    public void addMore(ArrayList<Book> books) {
+        this.books.addAll(books);
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getCount() {

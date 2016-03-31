@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -173,7 +174,9 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
         bannerIndicator.getLayoutParams().width = defaultPointWidth * bannerEntities.size();
         // request layout toto make new layout
         bannerIndicator.requestLayout();
-        bannerTitle.setText(bannerEntities.get(0).getTitle());
+        if (!TextUtils.isEmpty(bannerEntities.get(0).getTitle())) {
+            bannerTitle.setText(bannerEntities.get(0).getTitle());
+        }
         this.setVisibility(VISIBLE);
     }
 
