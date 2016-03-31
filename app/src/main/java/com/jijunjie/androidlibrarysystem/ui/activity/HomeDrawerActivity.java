@@ -89,7 +89,6 @@ public class HomeDrawerActivity extends AppCompatActivity
         });
     }
 
-
     /**
      * to get the tab title of the fragment
      *
