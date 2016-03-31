@@ -42,8 +42,8 @@ public class BaseApplication extends Application {
                 .memoryCacheSize(1024 * 1024)
                 .memoryCache(new UsingFreqLimitedMemoryCache(1024 * 1024))
                 .imageDownloader(new BaseImageDownloader(this, 5 * 1000, 30 * 1000))
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .writeDebugLogs();
+                .tasksProcessingOrder(QueueProcessingType.LIFO);
+//                .writeDebugLogs();
         if (!ImageLoader.getInstance().isInited()) {
             ImageLoader.getInstance().init(loaderConfig.build());
         }

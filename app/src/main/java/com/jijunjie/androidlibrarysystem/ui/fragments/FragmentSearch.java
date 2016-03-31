@@ -44,7 +44,7 @@ public class FragmentSearch extends Fragment {
         if (sharedPreferences != null) {
             record = sharedPreferences.getString("history", "");
             historys = record.split(",");
-            Log.e("tag", "onCreate: "+record );
+            Log.e("tag", "onCreate: " + record);
         }
         list = new ArrayList<>();
         if (historys != null) {
@@ -69,6 +69,8 @@ public class FragmentSearch extends Fragment {
             tabLayout.addTab(tabLayout.newTab().setText(titles[i]));
         }
         lvHistory = (ListView) root.findViewById(R.id.lvHistory);
+        View headerView = inflater.inflate(R.layout.history_header, lvHistory, false);
+        lvHistory.addHeaderView(headerView);
         adapter = new HistoryListAdapter(getActivity());
         lvHistory.setAdapter(adapter);
 
@@ -78,8 +80,7 @@ public class FragmentSearch extends Fragment {
 //            list.add(history);
 //        }
 //        adapter.setList(list);
-        View headerView = inflater.inflate(R.layout.history_header, lvHistory, false);
-        lvHistory.addHeaderView(headerView);
+
         editText = (ClearableEditText) root.findViewById(R.id.etSearch);
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override

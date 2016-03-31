@@ -99,11 +99,11 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
         lvBooks = (ListView) rootView.findViewById(R.id.lvBooks);
         lvBooks.setVisibility(View.GONE);
         adapter = new FavourListAdapter(getActivity());
-        lvBooks.setAdapter(adapter);
         banner = (BannerView) inflater.inflate(R.layout.banner_layout, lvBooks, false);
         banner.getLayoutParams().height = (int) (ScreenUtils.getScreenWidth(getActivity()) * 0.6);
         banner.invalidate();
         lvBooks.addHeaderView(banner);
+        lvBooks.setAdapter(adapter);
         return rootView;
     }
 

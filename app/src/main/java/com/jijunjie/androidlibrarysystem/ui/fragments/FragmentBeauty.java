@@ -36,6 +36,7 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
     private SwipeRefreshLayout swipeRefreshLayout;
     private MyHandler handler = new MyHandler(this);
     private int currentPage = 1;
+    private boolean isLoading = false;
 
     @Nullable
     @Override
@@ -62,8 +63,10 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
                 int[] lastVisibleItem = layoutManager.findLastVisibleItemPositions(null);
                 int totalItem = layoutManager.getItemCount();
                 Log.e("tag position", lastVisibleItem[1] + "");
-                if (totalItem - lastVisibleItem[1] < 4) {
+                if (totalItem - lastVisibleItem[1] < 4 && !isLoading) {
+                    isLoading = true;
                     addMoreData();
+                    Log.e("tag", "start load ");
                 }
 
                 super.onScrolled(recyclerView, dx, dy);
@@ -111,6 +114,7 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
                 Log.e("tag", dataResults.isError() + "");
                 adapter.setList(dataResults.getResults());
                 swipeRefreshLayout.setRefreshing(false);
+
             }
         });
     }
@@ -120,16 +124,18 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
         OkHttpUtils.get().url(Constants.beautyUrl + currentPage).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
+                isLoading = false;
                 Toast.makeText(getActivity(), "error data get fail", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onResponse(String response) {
-                Log.e("tag result", response);
+                Log.e("tag", response);
                 DataResults dataResults = new Gson().fromJson(response, DataResults.class);
-                Log.e("tag result", dataResults.isError() + "");
                 if (!dataResults.isError()) {
                     adapter.addMore(dataResults.getResults());
+                    isLoading = false;
+                    Log.e("tag","finish load");
                 } else {
                     Toast.makeText(getActivity(), "no more", Toast.LENGTH_SHORT).show();
                 }
