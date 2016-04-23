@@ -58,30 +58,37 @@ public class FavourListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //initialize the view holder
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_favour_list, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.tvBook = (TextView) convertView.findViewById(R.id.tvBook);
             viewHolder.ivBook = (ImageView) convertView.findViewById(R.id.ivBook);
             viewHolder.tvAuthor = (TextView) convertView.findViewById(R.id.tvAuthor);
-            viewHolder.tvPress = (TextView) convertView.findViewById(R.id.tvPress);
+            viewHolder.tvClass = (TextView) convertView.findViewById(R.id.tvClass);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        //get data to view through view holder
+        // get data to view through view holder
 
         viewHolder.tvBook.setText(books.get(position).getBookName());
-        viewHolder.tvPress.setText(books.get(position).getBookPress());
+        viewHolder.tvClass.setText(books.get(position).getClassName());
         viewHolder.tvAuthor.setText(books.get(position).getBookAuthor());
         DrawableUtils.displayNormalImgOnNet(viewHolder.ivBook, books.get(position).getBookImage().getFileUrl(context));
+        // set click event here
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+
+            }
+        });
         return convertView;
     }
 
     class ViewHolder {
-        TextView tvBook, tvAuthor, tvPress;
+        TextView tvBook, tvAuthor, tvClass;
         ImageView ivBook;
     }
 }

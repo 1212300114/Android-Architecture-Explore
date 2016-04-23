@@ -30,11 +30,12 @@
             android:layout_toRightOf="@+id/ivBook"
             android:ellipsize="end"
             android:lines="2"
+            android:maxLines="2"
             android:text="DAASDASDASDASDASDASDASDASDASDASDADADADA" />
 
         <TextView
             android:id="@+id/tvAuthor"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvBook"
             android:layout_marginLeft="10dp"
@@ -44,7 +45,7 @@
             android:text="dads" />
 
         <TextView
-            android:id="@+id/tvPress"
+            android:id="@+id/tvClass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

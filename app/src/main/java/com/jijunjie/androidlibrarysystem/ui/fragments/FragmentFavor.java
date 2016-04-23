@@ -101,11 +101,12 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
         lvBooks = (ListView) rootView.findViewById(R.id.lvBooks);
         lvBooks.setVisibility(View.GONE);
         adapter = new FavourListAdapter(getActivity());
-        lvBooks.setAdapter(adapter);
+
         banner = (BannerView) inflater.inflate(R.layout.banner_layout, lvBooks, false);
         banner.getLayoutParams().height = (int) (ScreenUtils.getScreenWidth(getActivity()) * 0.6);
         banner.invalidate();
         lvBooks.addHeaderView(banner);
+        lvBooks.setAdapter(adapter);
         lvBooks.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -145,14 +146,24 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                 pageIndex++;
             }
             isLoading = true;
-            bookQuery.setSkip(pageIndex * pageCount);
         }
+        bookQuery.order("createdAt");
+        bookQuery.setSkip(pageIndex * pageCount);
         Log.e("scroll tag", "page index = " + pageIndex);
+        //判断是否有缓存，该方法必须放在查询条件（如果有的话）都设置完之后再来调用才有效，就像这里一样。
+        boolean isCache = getActivity() != null && bookQuery.hasCachedResult(getActivity(), Book.class);
+        if (isCache) {
+            bookQuery.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
+            // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
+        } else {
+            bookQuery.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
+            // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
+        }
         bookQuery.findObjects(getActivity(), new FindListener<Book>() {
             @Override
             public void onSuccess(List<Book> list) {
                 Log.e("success", "success and size = " + list.size() + "   and page index = " + pageIndex);
-                ArrayList<BaseBannerEntity> entities = new ArrayList<BaseBannerEntity>();
+                ArrayList<BaseBannerEntity> entities = new ArrayList<>();
                 if (list.size() == 0) {
                     hasMore = false;
                     Toast.makeText(getActivity(), "没有更多啦！", Toast.LENGTH_SHORT).show();
@@ -171,7 +182,8 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                 Log.e("success", list.size() + "" + list.getClass().toString() + "------" + entities.size());
                 lvBooks.setVisibility(View.VISIBLE);
                 if (isRefresh) {
-                    banner.setBannerEntitiesAndLoopEnable(entities, true);
+                    if (entities.size() != 0)
+                        banner.setBannerEntitiesAndLoopEnable(entities, true);
                     adapter.setBooks((ArrayList<Book>) list);
                 } else {
                     adapter.addMore((ArrayList<Book>) list);

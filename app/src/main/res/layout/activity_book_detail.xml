@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context="com.jijunjie.androidlibrarysystem.ui.activity.BookDetailActivity">
+
+    <ImageView
+        android:id="@+id/ivBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@drawable/common_images_error" />
+
+    <TextView
+        android:id="@+id/tvBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivBook"
+        android:layout_marginTop="10dp"
+        android:text="123"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@id/tvAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvBook"
+        android:layout_marginTop="10dp"
+        android:text="郭敬明" />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

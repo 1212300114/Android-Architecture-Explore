@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jijunjie.myandroidlib.R;
@@ -34,6 +35,7 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
     private BannerPageAdapter pageAdapter;
     private GridView bannerIndicator;
     private BannerIndicatorAdapter indicatorAdapter;
+    private RelativeLayout rlBottom;
     //callback of click
     private onBannerClickListener onBannerClickListener;
 
@@ -111,7 +113,9 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
         bannerIndicator = (GridView) rootView.findViewById(R.id.bannerIndicator);
         bannerIndicator.setAdapter(indicatorAdapter);
         bannerTitle = (TextView) rootView.findViewById(R.id.bannerTitle);
-        this.setVisibility(GONE);
+        rlBottom = (RelativeLayout) findViewById(R.id.rlBottom);
+        rlBottom.setVisibility(GONE);
+
     }
 
 
@@ -156,9 +160,11 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
      * @param loopEnabled    the banner can scroll without bounds
      */
     public void setBannerEntitiesAndLoopEnable(final ArrayList<BaseBannerEntity> bannerEntities, boolean loopEnabled) {
+        if (bannerEntities.size() == 0) {
+            throw new NullPointerException("your data is empty");
+        }
         this.bannerEntities = bannerEntities;
         this.loopEnabled = loopEnabled;
-
         // set data to view pager adapter
         pageAdapter.setDataWithLoopEnabled(bannerEntities, loopEnabled);
         if (loopEnabled) {
@@ -174,10 +180,11 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
         bannerIndicator.getLayoutParams().width = defaultPointWidth * bannerEntities.size();
         // request layout toto make new layout
         bannerIndicator.requestLayout();
+        // show the bottom bar
+        rlBottom.setVisibility(VISIBLE);
         if (!TextUtils.isEmpty(bannerEntities.get(0).getTitle())) {
             bannerTitle.setText(bannerEntities.get(0).getTitle());
         }
-        this.setVisibility(VISIBLE);
     }
 
 
@@ -230,6 +237,7 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
     //to stop auto play thread;
     public void stopAutoPlay() {
         autoPlay = false;
+        removeCallbacks(playTask);
     }
 
     /**

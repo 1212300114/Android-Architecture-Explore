@@ -76,7 +76,7 @@ public class BeautyAdapter extends RecyclerView.Adapter<BeautyAdapter.GirlyViewH
 
         public GirlyViewHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.iv_girly);
+            imageView = (ImageView) itemView.findViewById(R.id.iv_girl);
         }
     }
 

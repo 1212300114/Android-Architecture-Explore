@@ -42,7 +42,9 @@ public class FragmentSearch extends Fragment {
 
         sharedPreferences = getActivity().getSharedPreferences("setting", Context.MODE_PRIVATE);
         if (sharedPreferences != null) {
-            record = sharedPreferences.getString("history", "");
+
+            record = sharedPreferences.
+                    getString("history", "");
             historys = record.split(",");
             Log.e("tag", "onCreate: " + record);
         }

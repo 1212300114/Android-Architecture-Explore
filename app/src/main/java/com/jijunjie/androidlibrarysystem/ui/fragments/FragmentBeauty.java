@@ -50,7 +50,7 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
         recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
         adapter = new BeautyAdapter(getActivity());
         recyclerView.setAdapter(adapter);
-        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -62,12 +62,17 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int[] lastVisibleItem = layoutManager.findLastVisibleItemPositions(null);
                 int totalItem = layoutManager.getItemCount();
-                Log.e("tag position", lastVisibleItem[1] + "");
-                if (totalItem - lastVisibleItem[1] < 4 && !isLoading) {
-                    isLoading = true;
-                    if (totalItem - lastVisibleItem[1] < 4) {
+                Log.e("tag position", lastVisibleItem[1] + "total = " + totalItem);
+                if (totalItem - lastVisibleItem[1] < 6) {
+                    if (!isLoading) {
+                        isLoading = true;
                         addMoreData();
-                        Log.e("tag", "start load ");
+                        Log.d("tag", "start load ");
+                    } else {
+                        Log.d("loading scroll tag", "dx= " + dx);
+                        if (dx > 0) {
+                            Toast.makeText(getActivity(), "正在加载请稍后", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 }
@@ -133,9 +138,10 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
             public void onResponse(String response) {
                 Log.e("tag", response);
                 DataResults dataResults = new Gson().fromJson(response, DataResults.class);
+                isLoading = false;
                 if (!dataResults.isError()) {
                     adapter.addMore(dataResults.getResults());
-                    isLoading = false;
+
                     Log.e("tag", "finish load");
                 } else {
                     Toast.makeText(getActivity(), "no more", Toast.LENGTH_SHORT).show();
