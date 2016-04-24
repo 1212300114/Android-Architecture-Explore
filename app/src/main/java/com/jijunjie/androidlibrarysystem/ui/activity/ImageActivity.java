@@ -11,9 +11,14 @@ import android.widget.Toast;
 import com.jijunjie.androidlibrarysystem.R;
 import com.jijunjie.myandroidlib.utils.DrawableUtils;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class ImageActivity extends AppCompatActivity {
-    private Toolbar toolbar;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.ivGirl)
     private ImageView ivGirl;
     private String url, desc;
 
@@ -21,28 +26,24 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+        ButterKnife.bind(this);
         url = getIntent().getStringExtra("url");
         desc = getIntent().getStringExtra("desc");
         initToolbar();
-        initViews();
+        displayImage();
     }
 
-    private void initViews() {
-//        simpleDraweeView = (SimpleDraweeView) findViewById(R.id.draweeview);
-//        GenericDraweeHierarchy hierarchy = simpleDraweeView.getHierarchy();
-//        hierarchy.setProgressBarImage(new ProgressBarDrawable());
-//        Uri uri = Uri.parse(url);
-//        simpleDraweeView.setImageURI(uri);
-        ivGirl = (ImageView) findViewById(R.id.ivGirl);
-        DrawableUtils.displayNormalImgOnNet(ivGirl,url);
-    }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_white_24dp);
         getSupportActionBar().setTitle("beautiful girls");
+    }
+
+    private void displayImage() {
+
+        DrawableUtils.displayNormalImgOnNet(ivGirl, url);
     }
 
     @Override

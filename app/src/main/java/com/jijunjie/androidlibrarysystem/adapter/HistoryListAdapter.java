@@ -26,9 +26,17 @@ public class HistoryListAdapter extends BaseAdapter {
     }
 
     public void setList(ArrayList<String> list) {
+        if (list == null)
+            return;
         this.list.clear();
-        this.list.addAll(list);
+        for (int i = list.size() - 1; i > 0; i--) {
+            this.list.add(list.get(i));
+        }
         notifyDataSetChanged();
+    }
+
+    public void addOne(String item) {
+        this.list.add(item);
     }
 
     @Override

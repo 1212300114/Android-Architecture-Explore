@@ -1,6 +1,7 @@
 package com.jijunjie.androidlibrarysystem.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 
 import com.jijunjie.androidlibrarysystem.R;
 import com.jijunjie.androidlibrarysystem.model.Results;
+import com.jijunjie.androidlibrarysystem.ui.activity.ImageActivity;
 import com.jijunjie.myandroidlib.utils.DrawableUtils;
 
 import java.util.ArrayList;
@@ -54,15 +56,15 @@ public class BeautyAdapter extends RecyclerView.Adapter<BeautyAdapter.GirlyViewH
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)
 //                .into(holder.imageView);
         DrawableUtils.displayNormalImgOnNet(holder.imageView, list.get(position).getUrl());
-//        holder.imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent(context, ImageActivity.class);
-//                intent.putExtra("url",list.get(position).getUrl());
-//                intent.putExtra("desc",list.get(position).getDesc());
-//                context.startActivity(intent);
-//            }
-//        });
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, ImageActivity.class);
+                intent.putExtra("url",list.get(position).getUrl());
+                intent.putExtra("desc",list.get(position).getDesc());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

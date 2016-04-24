@@ -27,6 +27,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
@@ -36,11 +38,14 @@ import cn.bmob.v3.listener.FindListener;
  * Created by jijunjie on 16/3/2.
  */
 public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-
+    // the header view can't use butterKnife;
     private BannerView banner;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private ListView lvBooks;
+    @Bind(R.id.swipeRefresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.lvBooks)
+    ListView lvBooks;
     private FavourListAdapter adapter;
+
     private Handler handler = new MyHandler(this);
 
     @Override
@@ -58,26 +63,14 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
     @Override
     public void onResume() {
         super.onResume();
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-            }
-        });
-        //需要手动调一次回调,延时调 ui 效果好一些
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FragmentFavor.this.onRefresh();
-            }
-        }, 1000);
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("fragment log", "create view");
-        return createFragmentView(inflater);
+        return createFragmentView(inflater, container);
     }
 
 
@@ -89,16 +82,15 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
 
-    private View createFragmentView(LayoutInflater inflater) {
-        View rootView = inflater.inflate(R.layout.fragment_favor, null);
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefresh);
+    private View createFragmentView(LayoutInflater inflater, ViewGroup container) {
+        View rootView = inflater.inflate(R.layout.fragment_favor, container, false);
+        ButterKnife.bind(this, rootView);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorAccentDark,
                 R.color.colorPrimary, R.color.colorPrimaryDark);
         swipeRefreshLayout.startNestedScroll(View.SCROLL_AXIS_VERTICAL);
         swipeRefreshLayout.setOnRefreshListener(this);
 
 
-        lvBooks = (ListView) rootView.findViewById(R.id.lvBooks);
         lvBooks.setVisibility(View.GONE);
         adapter = new FavourListAdapter(getActivity());
 
@@ -123,6 +115,19 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                 }
             }
         });
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
+        //需要手动调一次回调,延时调 ui 效果好一些
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FragmentFavor.this.onRefresh();
+            }
+        }, 1000);
         return rootView;
     }
 
@@ -220,6 +225,7 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
     @Override
     public void onDestroyView() {
         Log.d("fragment log", "destroy view");
+        ButterKnife.unbind(this);
         super.onDestroyView();
     }
 

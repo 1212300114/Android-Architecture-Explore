@@ -31,4 +31,5 @@ dependencies {
     compile files('libs/BmobSDK_V3.4.5_1111.jar')
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile 'com.zhy:okhttputils:2.3.8'
+    compile 'com.jakewharton:butterknife:7.0.1'
 }

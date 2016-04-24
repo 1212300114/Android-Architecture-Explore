@@ -24,16 +24,21 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.lang.ref.WeakReference;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 
 
 /**
  * Created by jijunjie on 16/3/25.
+ * the beauty girls fragment show girl's photo in Staggered style
  */
 public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private RecyclerView recyclerView;
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @Bind(R.id.swipeRefresh)
+    SwipeRefreshLayout swipeRefreshLayout;
     private BeautyAdapter adapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private MyHandler handler = new MyHandler(this);
     private int currentPage = 1;
     private boolean isLoading = false;
@@ -46,8 +51,7 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
 
     private View createFragmentView(LayoutInflater inflater, ViewGroup container) {
         View root = inflater.inflate(R.layout.fragment_beauty, container, false);
-
-        recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
+        ButterKnife.bind(this, root);
         adapter = new BeautyAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL);
@@ -68,27 +72,15 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
                         isLoading = true;
                         addMoreData();
                         Log.d("tag", "start load ");
-                    } else {
-                        Log.d("loading scroll tag", "dx= " + dx);
-                        if (dx > 0) {
-                            Toast.makeText(getActivity(), "正在加载请稍后", Toast.LENGTH_SHORT).show();
-                        }
                     }
 
                 }
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
-        swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipeRefresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorAccentDark,
                 R.color.colorPrimary, R.color.colorPrimaryDark);
         swipeRefreshLayout.setOnRefreshListener(this);
-        return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -102,28 +94,22 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
                 FragmentBeauty.this.onRefresh();
             }
         }, 1000);
+        return root;
     }
 
-    private void pullInData() {
-        currentPage = 1;
-        OkHttpUtils.get().url(Constants.beautyUrl + currentPage).build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e) {
-                Log.e("tag", "error" + call.toString() + e.toString());
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(getActivity(), "error data get fail", Toast.LENGTH_SHORT).show();
-            }
+    @Override
+    public void onResume() {
+        super.onResume();
 
-            @Override
-            public void onResponse(String response) {
-                DataResults dataResults = new Gson().fromJson(response, DataResults.class);
-                adapter.setList(dataResults.getResults());
-                swipeRefreshLayout.setRefreshing(false);
-
-            }
-        });
     }
 
+    @Override
+    public void onDestroyView() {
+        ButterKnife.unbind(this);
+        super.onDestroyView();
+    }
+
+    //auto add more data when scrolling  to end
     private void addMoreData() {
         currentPage++;
         Log.e("page tag", "page = " + currentPage);
@@ -153,6 +139,27 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onRefresh() {
         pullInData();
+    }
+
+    //pull in data when refresh
+    private void pullInData() {
+        currentPage = 1;
+        OkHttpUtils.get().url(Constants.beautyUrl + currentPage).build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+                Log.e("tag", "error" + call.toString() + e.toString());
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getActivity(), "error data get fail", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                DataResults dataResults = new Gson().fromJson(response, DataResults.class);
+                adapter.setList(dataResults.getResults());
+                swipeRefreshLayout.setRefreshing(false);
+
+            }
+        });
     }
 
     static class MyHandler extends Handler {
