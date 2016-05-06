@@ -28,7 +28,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Call;
 
-
 /**
  * Created by jijunjie on 16/3/25.
  * the beauty girls fragment show girl's photo in Staggered style
@@ -88,18 +87,18 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
             }
         });
         //需要手动调一次回调,延时调 ui 效果好一些
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FragmentBeauty.this.onRefresh();
-            }
-        }, 1000);
         return root;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FragmentBeauty.this.onRefresh();
+            }
+        }, 200);
 
     }
 
@@ -148,15 +147,19 @@ public class FragmentBeauty extends Fragment implements SwipeRefreshLayout.OnRef
             @Override
             public void onError(Call call, Exception e) {
                 Log.e("tag", "error" + call.toString() + e.toString());
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(getActivity(), "error data get fail", Toast.LENGTH_SHORT).show();
+                if (swipeRefreshLayout != null)
+                    swipeRefreshLayout.setRefreshing(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity().getApplicationContext(), "error data get fail", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onResponse(String response) {
                 DataResults dataResults = new Gson().fromJson(response, DataResults.class);
-                adapter.setList(dataResults.getResults());
-                swipeRefreshLayout.setRefreshing(false);
+                if (adapter != null)
+                    adapter.setList(dataResults.getResults());
+                if (swipeRefreshLayout != null)
+                    swipeRefreshLayout.setRefreshing(false);
 
             }
         });

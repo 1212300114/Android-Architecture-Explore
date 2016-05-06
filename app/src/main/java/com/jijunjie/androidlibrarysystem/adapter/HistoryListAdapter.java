@@ -29,9 +29,14 @@ public class HistoryListAdapter extends BaseAdapter {
         if (list == null)
             return;
         this.list.clear();
-        for (int i = list.size() - 1; i > 0; i--) {
+        for (int i = list.size() - 1; i >= 0; i--) {
             this.list.add(list.get(i));
         }
+        notifyDataSetChanged();
+    }
+
+    public void clearData() {
+        this.list.clear();
         notifyDataSetChanged();
     }
 

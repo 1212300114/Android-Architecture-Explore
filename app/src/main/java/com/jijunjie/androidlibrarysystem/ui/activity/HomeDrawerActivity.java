@@ -1,6 +1,7 @@
 package com.jijunjie.androidlibrarysystem.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -138,16 +139,19 @@ public class HomeDrawerActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_slideshow) {
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id) {
+            case R.id.nav_home:
+                startActivity(new Intent(this, HomeDrawerActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+                );
+                break;
+            case R.id.nav_manage:
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
+            case R.id.nav_info_modify:
+                break;
+            default:
+                break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

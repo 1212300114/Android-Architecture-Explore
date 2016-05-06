@@ -1,25 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:background="#efefef"
     tools:context="com.jijunjie.androidlibrarysystem.ui.activity.BookDetailActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/barLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
     <ImageView
         android:id="@+id/ivBook"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
+        android:layout_height="180dp"
+        android:layout_below="@+id/barLayout"
+        android:layout_margin="10dp"
+        android:scaleType="fitXY"
         android:src="@drawable/common_images_error" />
 
     <TextView
         android:id="@+id/tvBook"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivBook"
+        android:layout_margin="10dp"
         android:layout_marginTop="10dp"
         android:text="123"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/tvPress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ivBook"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:text="出版社"
         android:textSize="17sp" />
 
     <TextView
@@ -27,11 +68,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvBook"
+        android:layout_margin="10dp"
         android:layout_marginTop="10dp"
         android:text="郭敬明" />
 
     <TextView
-
+        android:id="@+id/tvRemain"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvAuthor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="剩余"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/tvBorrow"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="预借"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
 </RelativeLayout>

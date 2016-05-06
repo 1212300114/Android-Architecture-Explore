@@ -1,6 +1,9 @@
 package com.jijunjie.androidlibrarysystem.ui.fragments;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +22,7 @@ import com.google.gson.Gson;
 import com.jijunjie.androidlibrarysystem.R;
 import com.jijunjie.androidlibrarysystem.adapter.FavourListAdapter;
 import com.jijunjie.androidlibrarysystem.model.Book;
+import com.jijunjie.androidlibrarysystem.ui.activity.BookDetailActivity;
 import com.jijunjie.myandroidlib.utils.ScreenUtils;
 import com.jijunjie.myandroidlib.view.BannerView.BannerView;
 import com.jijunjie.myandroidlib.view.BannerView.BaseBannerEntity;
@@ -45,12 +49,13 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
     @Bind(R.id.lvBooks)
     ListView lvBooks;
     private FavourListAdapter adapter;
-
+    private ArrayList<Book> bannerModel;
     private Handler handler = new MyHandler(this);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("fragment log", "create");
+        bannerModel = new ArrayList<>();
         super.onCreate(savedInstanceState);
     }
 
@@ -62,6 +67,12 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onResume() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FragmentFavor.this.onRefresh();
+            }
+        }, 200);
         super.onResume();
 
     }
@@ -82,6 +93,7 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private View createFragmentView(LayoutInflater inflater, ViewGroup container) {
         View rootView = inflater.inflate(R.layout.fragment_favor, container, false);
         ButterKnife.bind(this, rootView);
@@ -95,8 +107,16 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
         adapter = new FavourListAdapter(getActivity());
 
         banner = (BannerView) inflater.inflate(R.layout.banner_layout, lvBooks, false);
-        banner.getLayoutParams().height = (int) (ScreenUtils.getScreenWidth(getActivity()) * 0.6);
+        banner.getLayoutParams().height = (int) (ScreenUtils.getScreenWidth(getActivity()) / 2.35);
         banner.invalidate();
+        banner.setOnBannerClickListener(new BannerView.onBannerClickListener() {
+            @Override
+            public void click(BaseBannerEntity entity, int position) {
+                if (bannerModel == null) return;
+                startActivity(new Intent(getActivity(), BookDetailActivity.class).
+                        putExtra("data", bannerModel.get(position)));
+            }
+        });
         lvBooks.addHeaderView(banner);
         lvBooks.setAdapter(adapter);
         lvBooks.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -122,12 +142,7 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
             }
         });
         //需要手动调一次回调,延时调 ui 效果好一些
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FragmentFavor.this.onRefresh();
-            }
-        }, 1000);
+
         return rootView;
     }
 
@@ -152,7 +167,7 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
             }
             isLoading = true;
         }
-        bookQuery.order("createdAt");
+        bookQuery.order("bookID");
         bookQuery.setSkip(pageIndex * pageCount);
         Log.e("scroll tag", "page index = " + pageIndex);
         //判断是否有缓存，该方法必须放在查询条件（如果有的话）都设置完之后再来调用才有效，就像这里一样。
@@ -167,6 +182,8 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
         bookQuery.findObjects(getActivity(), new FindListener<Book>() {
             @Override
             public void onSuccess(List<Book> list) {
+                if (swipeRefreshLayout != null)
+                    swipeRefreshLayout.setRefreshing(false);
                 Log.e("success", "success and size = " + list.size() + "   and page index = " + pageIndex);
                 ArrayList<BaseBannerEntity> entities = new ArrayList<>();
                 if (list.size() == 0) {
@@ -176,16 +193,20 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                 isLoading = false;
                 for (Book book : list) {
                     String json = new Gson().toJson(book);
+
                     Log.e("book json String", json);
-                    if (book.getClassName().equals("教育")) {
+                    if (book.getClassName().equals("民俗文化")) {
                         BaseBannerEntity entity = new BaseBannerEntity();
                         entity.setImgUrl(book.getBookImage().getFileUrl(getActivity()));
                         entity.setTitle(book.getBookName());
                         entities.add(entity);
+                        if (bannerModel == null) bannerModel = new ArrayList<>();
+                        bannerModel.add(book);
                     }
                 }
                 Log.e("success", list.size() + "" + list.getClass().toString() + "------" + entities.size());
-                lvBooks.setVisibility(View.VISIBLE);
+                if (lvBooks != null)
+                    lvBooks.setVisibility(View.VISIBLE);
                 if (isRefresh) {
                     if (entities.size() != 0)
                         banner.setBannerEntitiesAndLoopEnable(entities, true);
@@ -193,20 +214,21 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                 } else {
                     adapter.addMore((ArrayList<Book>) list);
                 }
-                swipeRefreshLayout.setRefreshing(false);
+
             }
 
             @Override
             public void onError(int i, String s) {
                 Log.d("error", "error = " + s);
-                swipeRefreshLayout.setRefreshing(false);
+                if (swipeRefreshLayout != null)
+                    swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
     @Override
     public void onDestroy() {
-        Log.d("fragment log", "fragment destory");
+        Log.d("fragment log", "fragment destroy");
         super.onDestroy();
     }
 

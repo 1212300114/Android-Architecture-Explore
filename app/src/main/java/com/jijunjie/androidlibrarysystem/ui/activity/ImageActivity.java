@@ -19,7 +19,7 @@ public class ImageActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.ivGirl)
-    private ImageView ivGirl;
+    ImageView ivGirl;
     private String url, desc;
 
     @Override

@@ -8,8 +8,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="近期搜索记录"
+        android:padding="10dp"
+        android:text="@string/search_record_text"
         android:textColor="@android:color/darker_gray" />
 
     <TextView
@@ -17,5 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="清空" />
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:text="@string/text_clear"
+        android:textColor="@drawable/text_color_selector" />
 </RelativeLayout>

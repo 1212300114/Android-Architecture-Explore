@@ -17,6 +17,7 @@
         android:background="@color/base_banner_bottom_color">
 
         <TextView
+            android:textColor="@android:color/white"
             android:id="@+id/bannerTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
