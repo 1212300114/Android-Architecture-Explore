@@ -68,7 +68,7 @@ public class SearchResultActivity extends AppCompatActivity {
                 if (null != list && list.size() > 0) {
                     Toast.makeText(SearchResultActivity.this.getApplicationContext(),
                             "查询到" + list.size() + "个结果", Toast.LENGTH_SHORT).show();
-                        adapter.setBooks((ArrayList<Book>) list);
+                    adapter.setBooks((ArrayList<Book>) list);
                 } else {
                     Toast.makeText(SearchResultActivity.this.getApplicationContext(),
                             "查询无结果", Toast.LENGTH_SHORT).show();
@@ -82,6 +82,7 @@ public class SearchResultActivity extends AppCompatActivity {
                 Log.e("error", "error = " + s + " i = " + i);
             }
         });
+
     }
 
     @Override

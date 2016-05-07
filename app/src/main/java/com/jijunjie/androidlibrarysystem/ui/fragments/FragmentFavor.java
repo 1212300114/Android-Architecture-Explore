@@ -67,12 +67,7 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onResume() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FragmentFavor.this.onRefresh();
-            }
-        }, 200);
+
         super.onResume();
 
     }
@@ -128,7 +123,7 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 //                    queryData(false);
-                Log.e("scroll tag", firstVisibleItem + "---" + visibleItemCount + "---" + totalItemCount);
+                Log.d("scroll tag", firstVisibleItem + "---" + visibleItemCount + "---" + totalItemCount);
                 if (firstVisibleItem + visibleItemCount > totalItemCount - 4 && hasMore && !isLoading) {
 
                     queryData(false);
@@ -142,7 +137,12 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
             }
         });
         //需要手动调一次回调,延时调 ui 效果好一些
-
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FragmentFavor.this.onRefresh();
+            }
+        }, 200);
         return rootView;
     }
 
@@ -169,22 +169,22 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
         }
         bookQuery.order("bookID");
         bookQuery.setSkip(pageIndex * pageCount);
-        Log.e("scroll tag", "page index = " + pageIndex);
+        Log.d("scroll tag", "page index = " + pageIndex);
         //判断是否有缓存，该方法必须放在查询条件（如果有的话）都设置完之后再来调用才有效，就像这里一样。
-        boolean isCache = getActivity() != null && bookQuery.hasCachedResult(getActivity(), Book.class);
-        if (isCache) {
-            bookQuery.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
-            // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
-        } else {
-            bookQuery.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
-            // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
-        }
+//        boolean isCache = getActivity() != null && bookQuery.hasCachedResult(getActivity(), Book.class);
+//        if (isCache) {
+//            bookQuery.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
+//            // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
+//        } else {
+//            bookQuery.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
+//            // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
+//        }
         bookQuery.findObjects(getActivity(), new FindListener<Book>() {
             @Override
             public void onSuccess(List<Book> list) {
                 if (swipeRefreshLayout != null)
                     swipeRefreshLayout.setRefreshing(false);
-                Log.e("success", "success and size = " + list.size() + "   and page index = " + pageIndex);
+                Log.d("success", "success and size = " + list.size() + "   and page index = " + pageIndex);
                 ArrayList<BaseBannerEntity> entities = new ArrayList<>();
                 if (list.size() == 0) {
                     hasMore = false;
@@ -194,8 +194,8 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                 for (Book book : list) {
                     String json = new Gson().toJson(book);
 
-                    Log.e("book json String", json);
-                    if (book.getClassName().equals("民俗文化")) {
+                    Log.d("book json String", json);
+                    if (book.getClassName().equals("旅游")) {
                         BaseBannerEntity entity = new BaseBannerEntity();
                         entity.setImgUrl(book.getBookImage().getFileUrl(getActivity()));
                         entity.setTitle(book.getBookName());
@@ -204,7 +204,7 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                         bannerModel.add(book);
                     }
                 }
-                Log.e("success", list.size() + "" + list.getClass().toString() + "------" + entities.size());
+                Log.d("success", list.size() + "" + list.getClass().toString() + "------" + entities.size());
                 if (lvBooks != null)
                     lvBooks.setVisibility(View.VISIBLE);
                 if (isRefresh) {

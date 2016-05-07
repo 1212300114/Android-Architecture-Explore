@@ -15,13 +15,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jijunjie.androidlibrarysystem.R;
 import com.jijunjie.androidlibrarysystem.adapter.PagerFragmentAdapter;
+import com.jijunjie.androidlibrarysystem.model.User;
 import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentBeauty;
 import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentFavor;
 import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentSearch;
+import com.jijunjie.myandroidlib.utils.DrawableUtils;
 import com.jijunjie.myandroidlib.utils.KeyBoardUtils;
 
 import java.util.ArrayList;
@@ -29,8 +33,9 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+
 public class HomeDrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.drawer_layout)
@@ -39,12 +44,21 @@ public class HomeDrawerActivity extends AppCompatActivity
     TabLayout tabLayout;
     @Bind(R.id.viewPager)
     ViewPager viewPager;
+
+    /**
+     * view inside navigation view
+     */
+    TextView textView;
+    TextView tvUserName;
+    ImageView ivUserIcon;
     private int[] titleIDs = new int[]{R.string.title_first, R.string.title_second, R.string.title_third};
     private PagerFragmentAdapter adapter;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        currentUser = User.getCurrentUser(this, User.class);
         initView();
     }
 
@@ -58,9 +72,24 @@ public class HomeDrawerActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
         //set up navigation view
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        ivUserIcon = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        textView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView);
+        tvUserName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tvUserName);
+        if (currentUser != null) {
+            DrawableUtils.disPlayLocRoundImg(ivUserIcon, R.drawable.user_icon);
+            tvUserName.setText(currentUser.getUsername());
+            if (currentUser.getUserType() == 1) {
+                textView.setText("管理员");
+            } else {
+                textView.setText("普通用户");
+            }
+        } else {
+
+        }
         //set up view pager
         adapter = new PagerFragmentAdapter(getSupportFragmentManager());
         adapter.setData(generateFragments(), generateTitles());
@@ -146,9 +175,23 @@ public class HomeDrawerActivity extends AppCompatActivity
                 );
                 break;
             case R.id.nav_manage:
-                startActivity(new Intent(this, LoginActivity.class));
+                if (currentUser == null) {
+                    startActivity(new Intent(this, LoginActivity.class));
+                } else {
+                    if (currentUser.getUserType() != 1) {
+                        Toast.makeText(getApplicationContext(), "非管理员用户无法管理书籍", Toast.LENGTH_SHORT)
+                                .show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "管理书籍", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 break;
             case R.id.nav_info_modify:
+                if (currentUser != null) {
+                    startActivity(new Intent(this, UserInfoActivity.class));
+                } else {
+                    startActivity(new Intent(this, LoginActivity.class));
+                }
                 break;
             default:
                 break;
@@ -160,5 +203,12 @@ public class HomeDrawerActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.imageView) {
+            Toast.makeText(getApplicationContext(), "image click", Toast.LENGTH_SHORT).show();
+        }
     }
 }

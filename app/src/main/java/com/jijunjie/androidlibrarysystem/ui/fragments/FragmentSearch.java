@@ -195,7 +195,8 @@ public class FragmentSearch extends Fragment implements View.OnClickListener, Ta
 
         startActivity(new Intent(getActivity(), SearchResultActivity.class)
                 .putExtra("input", input)
-                .putExtra("isBookName", isBookName));
+                .putExtra("isBookName", isBookName)
+        );
     }
 
     /**
