@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -124,6 +125,19 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
         if (type == 0)
             lvBooks.addHeaderView(banner);
         lvBooks.setAdapter(adapter);
+        lvBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (type == 0) {
+                    startActivity(new Intent(getActivity(), BookDetailActivity.class)
+                            .putExtra("data", (Book) adapter.getItem(position - 1)));
+                } else {
+                    startActivity(new Intent(getActivity(), BookDetailActivity.class)
+                            .putExtra("data", (Book) adapter.getItem(position))
+                            .putExtra("type", type));
+                }
+            }
+        });
         lvBooks.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {

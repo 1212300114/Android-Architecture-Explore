@@ -1,7 +1,6 @@
 package com.jijunjie.androidlibrarysystem.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.jijunjie.androidlibrarysystem.R;
 import com.jijunjie.androidlibrarysystem.model.Book;
-import com.jijunjie.androidlibrarysystem.ui.activity.BookDetailActivity;
 import com.jijunjie.myandroidlib.utils.DrawableUtils;
 
 import java.util.ArrayList;
@@ -79,14 +77,6 @@ public class FavourListAdapter extends BaseAdapter {
         viewHolder.tvAuthor.setText(books.get(position).getBookAuthor());
         DrawableUtils.displayNormalImgOnNet(viewHolder.ivBook, books.get(position).getBookImage().getFileUrl(context));
         // set click event here
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                context.startActivity(new Intent(context, BookDetailActivity.class).
-                        putExtra("data", (Book) getItem(position)));
-            }
-        });
         return convertView;
     }
 

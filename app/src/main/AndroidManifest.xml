@@ -61,6 +61,7 @@
             android:name=".ui.activity.BorrowRecordActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".ui.activity.ManageActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
