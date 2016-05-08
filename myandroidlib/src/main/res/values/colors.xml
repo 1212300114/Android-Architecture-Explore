@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="base_banner_bottom_color">#99000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#a5a5a5</color>
+    <color name="red">#ff0000</color>
+    <color name="window_bg">#ededed</color>
+    <color name="titlebg">#FFFFFF</color>
+    <color name="line_color">#a0a0a0</color>
+    <color name="wheel_line_color">#C7C7C7</color>
+    <color name="select">#797e89</color>
+    <color name="drag_check_nomal">#121212</color>
+    <color name="drag_check_select">#cf0808</color>
+    <color name="item_select">#e5e5e5</color>
+    <color name="transparent">#00000000</color>
+    <color name="delete_btn_nomal">#cf0808</color>
+    <color name="delete_btn_select">#ba0707</color>
+    <color name="switch_theme_color">#0018ff</color>
+    <color name="light_grey">#e7e7e7</color>
+    <color name="common_color">#0fb8ff</color>
+    <!-- tabBar -->
+    <color name="tab_bar_bg_nomal">#ffffff</color>
+    <color name="tab_bar_bg_select">#ff0000</color>
+    <color name="tab_bar_name_nomal">#000000</color>
+    <color name="tab_bar_name_select">#ffffff</color>
 
+    <!--buttonTab-->
+    <color name="button_tab_nomal">#a5a5a5</color>
+    <color name="button_tab_select">#ff0000</color>
+
+    <!-- drag -->
+    <color name="subscribe_item_drag_stroke">#ffd2d2d2</color>
+    <color name="subscribe_item_drag_bg">#fff5f5f5</color>
+    <color name="subscribe_item_selected_stroke">#ffcc3131</color>
+    <color name="subscribe_item_disabled_stroke">#ffd9d9d9</color>
+    <color name="subscribe_item_disabled_bg">#ffefefef</color>
+    <color name="subscribe_item_selected_bg">#ffffffff</color>
+    <color name="subscribe_item_pressed_stroke">#ffcdcdcd</color>
+    <color name="subscribe_item_pressed_bg">#fff9f9f9</color>
+    <color name="subscribe_item_normal_stroke">#ffcdcdcd</color>
+    <color name="subscribe_item_normal_bg">#fff5f5f5</color>
+    <color name="base_banner_bottom_color">#66000000</color>
 </resources>

@@ -11,10 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jijunjie.androidlibrarysystem.R;
+import com.jijunjie.androidlibrarysystem.model.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.listener.SaveListener;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -96,7 +98,22 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void doRegister(String userName, String password, String cdKey) {
+        User user = new User();
+        user.setUsername(userName);
+        user.setPassword(password);
+        user.setUserSex(true);
+        user.setUserType(isReader ? 0 : 1);
+        user.signUp(this, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onFailure(int i, String s) {
+                Toast.makeText(RegisterActivity.this, "注册失败" + s, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

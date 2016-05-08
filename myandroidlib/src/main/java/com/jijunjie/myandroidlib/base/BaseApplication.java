@@ -2,6 +2,7 @@ package com.jijunjie.myandroidlib.base;
 
 import android.app.Application;
 
+import com.jijunjie.myandroidlib.utils.UIImageLoader;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -10,6 +11,10 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import cn.bmob.v3.Bmob;
+import cn.finalteam.galleryfinal.CoreConfig;
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.ThemeConfig;
 
 /**
  * Created by jijunjie on 16/2/26.
@@ -17,7 +22,7 @@ import cn.bmob.v3.Bmob;
  */
 public class BaseApplication extends Application {
     private boolean networkEnable = true;
-    private int netWorkType ;
+    private int netWorkType;
     private static BaseApplication sharedApplication;
 
     @Override
@@ -27,6 +32,31 @@ public class BaseApplication extends Application {
         Bmob.initialize(this, "eeea90c06c19494c0c2610bb59c23e44");
         sharedApplication = this;
         initImageLoader();
+        initGallery();
+    }
+
+    private void initGallery() {
+        //设置主题
+//ThemeConfig.CYAN
+        ThemeConfig theme = new ThemeConfig.Builder()
+                .build();
+//配置功能
+        FunctionConfig functionConfig = new FunctionConfig.Builder()
+                .setEnableCamera(true)
+                .setEnableEdit(true)
+                .setEnableCrop(true)
+                .setEnableRotate(true)
+                .setCropSquare(true)
+                .setEnablePreview(true)
+                .build();
+
+//配置imageloader
+        cn.finalteam.galleryfinal.ImageLoader imageLoader = new UIImageLoader();
+        CoreConfig coreConfig = new CoreConfig.Builder(this, imageLoader, theme)
+                .setFunctionConfig(functionConfig)
+                .build();
+        GalleryFinal.init(coreConfig);
+
     }
 
     /**

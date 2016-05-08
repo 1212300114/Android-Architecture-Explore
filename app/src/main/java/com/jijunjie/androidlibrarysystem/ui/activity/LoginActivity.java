@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, HomeDrawerActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                 );
+                overridePendingTransition(R.anim.bottom_slide_in_anim, R.anim.do_nothing_anim);
             }
 
             @Override
@@ -71,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.tvRegister)
     public void register() {
         startActivity(new Intent(this, RegisterActivity.class));
+        overridePendingTransition(R.anim.default_push_left_in, R.anim.do_nothing_anim);
     }
 
     private void initToolbar() {
@@ -89,6 +91,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(0, R.anim.default_push_right_out);
+        overridePendingTransition(0, R.anim.bottom_slide_out_anim);
     }
 }

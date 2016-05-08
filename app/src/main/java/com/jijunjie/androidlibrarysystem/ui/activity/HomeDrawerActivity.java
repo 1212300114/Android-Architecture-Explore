@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -27,6 +28,7 @@ import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentFavor;
 import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentSearch;
 import com.jijunjie.myandroidlib.utils.DrawableUtils;
 import com.jijunjie.myandroidlib.utils.KeyBoardUtils;
+import com.jijunjie.myandroidlib.utils.SharedPreferenceUtils;
 
 import java.util.ArrayList;
 
@@ -60,6 +62,16 @@ public class HomeDrawerActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         currentUser = User.getCurrentUser(this, User.class);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //update user icon if it is set
+        String path = (String) SharedPreferenceUtils.get(this, "icon", "");
+        if (!TextUtils.isEmpty(path)) {
+            DrawableUtils.disPlayLocRoundImg(ivUserIcon, path);
+        }
     }
 
     private void initView() {
@@ -173,10 +185,12 @@ public class HomeDrawerActivity extends AppCompatActivity
                 startActivity(new Intent(this, HomeDrawerActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                 );
+                overridePendingTransition(R.anim.bottom_slide_in_anim, R.anim.do_nothing_anim);
                 break;
             case R.id.nav_manage:
                 if (currentUser == null) {
                     startActivity(new Intent(this, LoginActivity.class));
+                    overridePendingTransition(R.anim.bottom_slide_in_anim, R.anim.do_nothing_anim);
                 } else {
                     if (currentUser.getUserType() != 1) {
                         Toast.makeText(getApplicationContext(), "非管理员用户无法管理书籍", Toast.LENGTH_SHORT)
@@ -189,8 +203,10 @@ public class HomeDrawerActivity extends AppCompatActivity
             case R.id.nav_info_modify:
                 if (currentUser != null) {
                     startActivity(new Intent(this, UserInfoActivity.class));
+                    overridePendingTransition(R.anim.default_push_left_in, R.anim.do_nothing_anim);
                 } else {
                     startActivity(new Intent(this, LoginActivity.class));
+                    overridePendingTransition(R.anim.bottom_slide_in_anim, R.anim.do_nothing_anim);
                 }
                 break;
             default:

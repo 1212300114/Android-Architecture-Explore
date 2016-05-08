@@ -10,6 +10,7 @@
     <include layout="@layout/view_toolbar" />
 
     <FrameLayout
+        android:id="@+id/flUserIcon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
@@ -36,10 +37,11 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/flNickName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:background="@android:color/white">
+        android:background="@drawable/common_item">
 
         <TextView
             android:layout_width="wrap_content"
@@ -62,10 +64,11 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/flPhone"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:background="@android:color/white">
+        android:background="@drawable/common_item">
 
         <TextView
             android:layout_width="wrap_content"
@@ -87,6 +90,32 @@
             android:textSize="17sp" />
     </FrameLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/common_item">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:text="用户类型"
+            android:textColor="@android:color/black"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tvUserType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_margin="10dp"
+            android:text="管理员"
+            android:textColor="@android:color/black"
+            android:textSize="17sp" />
+    </FrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -95,16 +124,16 @@
 
 
         <TextView
-            android:background="@color/colorPrimary"
-            android:textSize="18sp"
             android:id="@+id/tvBorrowRecord"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:text="查看借书记录"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvLoginOut"

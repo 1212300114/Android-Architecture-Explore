@@ -96,4 +96,10 @@ public class BorrowRecordActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_white_24dp);
         getSupportActionBar().setTitle("借书记录");
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.do_nothing_anim,R.anim.default_push_right_out);
+    }
 }
