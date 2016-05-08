@@ -42,43 +42,47 @@
         android:scaleType="fitXY"
         android:src="@drawable/common_images_error" />
 
-    <TextView
+    <EditText
         android:id="@+id/tvBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivBook"
         android:layout_margin="10dp"
         android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
         android:text="123"
         android:textSize="17sp" />
 
-    <TextView
-        android:id="@+id/tvPress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/ivBook"
-        android:layout_margin="10dp"
-        android:layout_marginTop="10dp"
-        android:text="出版社"
-        android:textSize="17sp" />
 
-    <TextView
+    <EditText
         android:id="@+id/tvAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvBook"
         android:layout_margin="10dp"
         android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
         android:text="郭敬明" />
 
-    <TextView
-        android:id="@+id/tvRemain"
+    <EditText
+        android:id="@+id/tvPress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvAuthor"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:text="出版社"
+        android:textSize="17sp" />
+
+    <EditText
+        android:id="@+id/tvRemain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPress"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
         android:text="剩余"
         android:textSize="25sp" />
 

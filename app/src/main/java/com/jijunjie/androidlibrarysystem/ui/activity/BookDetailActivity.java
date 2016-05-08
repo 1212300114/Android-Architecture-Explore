@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,13 +24,13 @@ public class BookDetailActivity extends AppCompatActivity {
     @Bind(R.id.ivBook)
     ImageView ivBook;
     @Bind(R.id.tvBook)
-    TextView tvBook;
+    EditText tvBook;
     @Bind(R.id.tvAuthor)
-    TextView tvAuthor;
+    EditText tvAuthor;
     @Bind(R.id.tvPress)
-    TextView tvPress;
+    EditText tvPress;
     @Bind(R.id.tvRemain)
-    TextView tvRemain;
+    EditText tvRemain;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.tvTitle)
@@ -59,17 +60,29 @@ public class BookDetailActivity extends AppCompatActivity {
             Log.e("tag", data.getBookName());
             DrawableUtils.displayNormalImgOnNet(ivBook, data.getBookImage().getFileUrl(this));
             tvBook.setText(data.getBookName());
-            tvAuthor.setText("作者"+data.getBookAuthor());
-            tvPress.setText("出版社"+data.getBookPress());
+            tvAuthor.setText("作者" + data.getBookAuthor());
+            tvPress.setText("出版社" + data.getBookPress());
             tvRemain.setText("剩余：" + data.getBookLeft());
         }
     }
+
+    boolean enable = false;
 
     @OnClick(R.id.tvBorrow)
     public void borrow() {
         if (data.getBookLeft() == 0)
             return;
+
         Toast.makeText(getApplicationContext(), "借书", Toast.LENGTH_SHORT).show();
+        enable = !enable;
+        enableEdit(enable);
+    }
+
+    private void enableEdit(boolean enable) {
+        tvAuthor.setFocusable(enable);
+        tvBook.setFocusable(enable);
+        tvPress.setFocusable(enable);
+        tvRemain.setFocusable(enable);
     }
 
     @Override

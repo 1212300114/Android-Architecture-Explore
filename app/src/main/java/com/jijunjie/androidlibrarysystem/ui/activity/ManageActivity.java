@@ -12,7 +12,7 @@ import com.jijunjie.androidlibrarysystem.R;
 import com.jijunjie.androidlibrarysystem.adapter.PagerFragmentAdapter;
 import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentAddBook;
 import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentDownBook;
-import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentModifyBook;
+import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentFavor;
 
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ public class ManageActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_white_24dp);
-        getSupportActionBar().setTitle("用户登录");
+        getSupportActionBar().setTitle("书籍管理");
     }
 
     private void initViews() {
@@ -68,8 +68,18 @@ public class ManageActivity extends AppCompatActivity {
     private ArrayList<Fragment> generateFragments() {
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(new FragmentAddBook());
-        fragments.add(new FragmentModifyBook());
+        FragmentFavor favor = new FragmentFavor();
+        Bundle arg = new Bundle();
+        arg.putInt("type", 1);
+        favor.setArguments(arg);
+        fragments.add(favor);
         fragments.add(new FragmentDownBook());
         return fragments;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.do_nothing_anim, R.anim.default_push_right_out);
     }
 }

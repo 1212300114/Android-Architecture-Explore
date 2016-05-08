@@ -51,11 +51,16 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
     private FavourListAdapter adapter;
     private ArrayList<Book> bannerModel;
     private Handler handler = new MyHandler(this);
+    private int type = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("fragment log", "create");
         bannerModel = new ArrayList<>();
+        Bundle arg = getArguments();
+        if (arg != null) {
+            type = arg.getInt("type");
+        }
         super.onCreate(savedInstanceState);
     }
 
@@ -110,9 +115,14 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                 if (bannerModel == null) return;
                 startActivity(new Intent(getActivity(), BookDetailActivity.class).
                         putExtra("data", bannerModel.get(position)));
+                getActivity().overridePendingTransition(R.anim.default_push_left_in,
+                        R.anim.do_nothing_anim);
             }
         });
-        lvBooks.addHeaderView(banner);
+
+        // only add banner when the type is favor
+        if (type == 0)
+            lvBooks.addHeaderView(banner);
         lvBooks.setAdapter(adapter);
         lvBooks.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -208,7 +218,7 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                 if (lvBooks != null)
                     lvBooks.setVisibility(View.VISIBLE);
                 if (isRefresh) {
-                    if (entities.size() != 0)
+                    if (entities.size() != 0 && type == 0)
                         banner.setBannerEntitiesAndLoopEnable(entities, true);
                     adapter.setBooks((ArrayList<Book>) list);
                 } else {

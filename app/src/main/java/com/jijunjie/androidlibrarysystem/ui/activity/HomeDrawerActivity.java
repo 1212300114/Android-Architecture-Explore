@@ -54,7 +54,6 @@ public class HomeDrawerActivity extends AppCompatActivity
     TextView tvUserName;
     ImageView ivUserIcon;
     private int[] titleIDs = new int[]{R.string.title_first, R.string.title_second, R.string.title_third};
-    private PagerFragmentAdapter adapter;
     User currentUser;
 
     @Override
@@ -103,7 +102,7 @@ public class HomeDrawerActivity extends AppCompatActivity
 
         }
         //set up view pager
-        adapter = new PagerFragmentAdapter(getSupportFragmentManager());
+        PagerFragmentAdapter adapter = new PagerFragmentAdapter(getSupportFragmentManager());
         adapter.setData(generateFragments(), generateTitles());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -196,7 +195,9 @@ public class HomeDrawerActivity extends AppCompatActivity
                         Toast.makeText(getApplicationContext(), "非管理员用户无法管理书籍", Toast.LENGTH_SHORT)
                                 .show();
                     } else {
+                        startActivity(new Intent(this, ManageActivity.class));
                         Toast.makeText(getApplicationContext(), "管理书籍", Toast.LENGTH_SHORT).show();
+                        overridePendingTransition(R.anim.default_push_left_in, R.anim.do_nothing_anim);
                     }
                 }
                 break;

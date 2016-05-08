@@ -138,7 +138,6 @@ public class UserInfoActivity extends AppCompatActivity {
 
             }
         });
-//带配置
     }
 
     @OnClick(R.id.flNickName)

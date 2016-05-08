@@ -11,11 +11,19 @@ public class Book extends BmobObject {
     private String className;
     private Integer bookID;
     private String bookAuthor;
-    private String booCountry;
+    private String bookCountry;
     private Integer bookCount;
     private Integer bookLeft;
     private BmobFile bookImage;
     private String bookPress;
+
+    public String getBookCountry() {
+        return bookCountry;
+    }
+
+    public void setBookCountry(String bookCountry) {
+        this.bookCountry = bookCountry;
+    }
 
     public String getBookPress() {
         return bookPress;
@@ -41,13 +49,6 @@ public class Book extends BmobObject {
         this.bookAuthor = bookAuthor;
     }
 
-    public String getBooCountry() {
-        return booCountry;
-    }
-
-    public void setBooCountry(String booCountry) {
-        this.booCountry = booCountry;
-    }
 
     public Integer getBookCount() {
         return bookCount;
