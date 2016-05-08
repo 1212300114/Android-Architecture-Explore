@@ -25,7 +25,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 finishSelfWithAnimation(0);
-                launchActivityWithAnimation(SplashActivity.this, HomeDrawerActivity.class, null, 0);
+                launchActivityWithAnimation(SplashActivity.this, FavorSelectActivity.class, null, 0);
             }
         }, 3000);
 

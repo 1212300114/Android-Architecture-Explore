@@ -107,6 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                RegisterActivity.this.onBackPressed();
             }
 
             @Override

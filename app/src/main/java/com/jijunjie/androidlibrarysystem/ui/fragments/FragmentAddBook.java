@@ -74,7 +74,7 @@ public class FragmentAddBook extends Fragment {
     }
 
     @OnClick(R.id.flSelectImage)
-    public void selectBookImage() {
+    public void selectBookImage(final View view) {
         GalleryFinal.openGallerySingle(REQUEST_CODE_GALLERY, new GalleryFinal.OnHanlderResultCallback() {
             @Override
             public void onHanlderSuccess(int requestCode, List<PhotoInfo> resultList) {
@@ -83,6 +83,7 @@ public class FragmentAddBook extends Fragment {
                     if (!TextUtils.isEmpty(path)) {
                         DrawableUtils.displayLocImg(ivBook, path);
                         imagePath = path;
+                        view.setBackgroundResource(android.R.color.white);
                     }
                 }
             }

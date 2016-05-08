@@ -253,11 +253,12 @@
                 android:textSize="18sp" />
 
             <EditText
+                android:padding="2dp"
                 android:id="@+id/etAbstract"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_toRightOf="@+id/tvUserName"
-                android:background="@android:color/white"
+                android:background="@drawable/gray_stroke_background"
                 android:gravity="left|top"
                 android:hint="请输入摘要"
                 android:imeOptions="actionDone"

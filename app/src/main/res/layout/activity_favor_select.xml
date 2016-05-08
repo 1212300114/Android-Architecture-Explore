@@ -5,5 +5,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.jijunjie.androidlibrarysystem.ui.activity.FavorSelectActivity">
-    <include layout="@layout/view_toolbar"/>
+
+    <include layout="@layout/view_toolbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvSure"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:text="确    认"
+            android:textColor="@android:color/white" />
+    </FrameLayout>
 </LinearLayout>
