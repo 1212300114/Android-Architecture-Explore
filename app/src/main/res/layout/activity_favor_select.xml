@@ -8,21 +8,46 @@
 
     <include layout="@layout/view_toolbar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvJump" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@+id/tvJump"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_above="@+id/tvSure"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="跳    过"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvSure"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"
             android:background="@color/colorPrimary"
+            android:gravity="center"
             android:text="确    认"
-            android:textColor="@android:color/white" />
-    </FrameLayout>
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
 </LinearLayout>

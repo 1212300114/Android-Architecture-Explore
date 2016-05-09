@@ -1,9 +1,4 @@
 package com.jijunjie.androidlibrarysystem.model;
-
-/**
- * Created by hugeterry(http://hugeterry.cn)
- * Date: 16/2/15 19:29
- */
 public class Results {
     /**
      "who": "MVP",

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.jijunjie.androidlibrarysystem.R;
 import com.jijunjie.androidlibrarysystem.model.User;
+import com.jijunjie.myandroidlib.utils.SharedPreferenceUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "请输入密码", Toast.LENGTH_SHORT).show();
             return;
         }
-        User user = new User();
+        final User user = new User();
         user.setUsername(userName);
         user.setPassword(password);
         user.login(this, new SaveListener() {
@@ -55,10 +56,20 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess() {
                 Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
                 LoginActivity.this.finish();
-                startActivity(new Intent(LoginActivity.this, HomeDrawerActivity.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
-                );
-                overridePendingTransition(R.anim.bottom_slide_in_anim, R.anim.do_nothing_anim);
+//                startActivity(new Intent(LoginActivity.this, HomeDrawerActivity.class)
+//                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+//                );
+//                overridePendingTransition(R.anim.bottom_slide_in_anim, R.anim.do_nothing_anim);
+                User current = User.getCurrentUser(LoginActivity.this, User.class);
+                String preferences = (String) SharedPreferenceUtils.get(LoginActivity.this, "preferences", "");
+                if (TextUtils.isEmpty(preferences) && current.getUserType() != 1) {
+                    startActivity(new Intent(LoginActivity.this, FavorSelectActivity.class));
+                } else {
+                    startActivity(new Intent(LoginActivity.this, HomeDrawerActivity.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+                    );
+                    overridePendingTransition(R.anim.bottom_slide_in_anim, R.anim.do_nothing_anim);
+                }
             }
 
             @Override

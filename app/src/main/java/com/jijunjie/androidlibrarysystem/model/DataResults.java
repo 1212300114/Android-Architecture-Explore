@@ -2,10 +2,6 @@ package com.jijunjie.androidlibrarysystem.model;
 
 import java.util.List;
 
-/**
- * Created by hugeterry(http://hugeterry.cn)
- * Date: 16/2/15 19:41
- */
 public class DataResults {
     /**
      *{"error":false,

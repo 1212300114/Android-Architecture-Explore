@@ -25,15 +25,35 @@ public class FavorSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private int[] imageRes = {R.drawable.icon_book_first, R.drawable.icon_book_second,
             R.drawable.icon_book_third, R.drawable.icon_book_forth, R.drawable.icon_book_fifth};
     private Context context;
+    private ArrayList<Boolean> states;
 
     public FavorSelectAdapter(Context context) {
         this.context = context;
         this.classNames = new ArrayList<>();
+        this.states = new ArrayList<>();
     }
 
     public void setClassNames(ArrayList<String> classNames) {
         this.classNames = classNames;
+        for (String ignored : classNames) {
+            states.add(false);
+        }
         notifyDataSetChanged();
+    }
+
+    public ArrayList<String> getSelectedClassNames() {
+        ArrayList<String> selectedNames = new ArrayList<>();
+        for (int i = 0; i < states.size(); i++) {
+            if (states.get(i)) {
+                selectedNames.add(classNames.get(i));
+            }
+        }
+        return selectedNames;
+    }
+
+    public void setSelectPosition(int index) {
+        this.states.set(index, true);
+        notifyItemChanged(index);
     }
 
     @Override
@@ -50,10 +70,25 @@ public class FavorSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        int pos = holder.getAdapterPosition();
+        final int pos = holder.getAdapterPosition();
         FavorViewHolder viewHolder = (FavorViewHolder) holder;
+        final Boolean state = states.get(pos);
+        if (state) {
+            viewHolder.tvClass.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            viewHolder.itemView.setBackgroundResource(R.drawable.selected_item_background);
+        } else {
+            viewHolder.tvClass.setTextColor(context.getResources().getColor(android.R.color.primary_text_light));
+            viewHolder.itemView.setBackgroundResource(R.drawable.gray_stroke_background);
+        }
         viewHolder.ivBook.setImageResource(imageRes[pos % 5]);
         viewHolder.tvClass.setText(classNames.get(pos));
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                states.set(pos, !state);
+                notifyItemChanged(pos);
+            }
+        });
     }
 
     @Override

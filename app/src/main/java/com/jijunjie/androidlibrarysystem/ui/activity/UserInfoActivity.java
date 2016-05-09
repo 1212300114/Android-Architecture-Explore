@@ -44,7 +44,8 @@ public class UserInfoActivity extends AppCompatActivity {
     TextView tvBorrowRecord;
     @Bind(R.id.tvUserType)
     TextView tvUserType;
-
+    @Bind(R.id.tvModify)
+    TextView tvModify;
 
     private static final int NICK_NAME = 1;
     private static final int PHONE = 2;
@@ -93,8 +94,10 @@ public class UserInfoActivity extends AppCompatActivity {
         if (userType == 1) {
             tvUserType.setText("管理员");
             tvBorrowRecord.setVisibility(View.GONE);
+            tvModify.setVisibility(View.GONE);
         } else {
             tvUserType.setText("普通用户");
+            tvModify.setVisibility(View.VISIBLE);
             tvBorrowRecord.setVisibility(View.VISIBLE);
         }
         String path = (String) SharedPreferenceUtils.get(this, "icon", "");
@@ -105,7 +108,7 @@ public class UserInfoActivity extends AppCompatActivity {
     @OnClick(R.id.tvLoginOut)
     public void setTvLoginOut() {
         User.logOut(this);
-        SharedPreferenceUtils.put(this, "icon", "");
+        SharedPreferenceUtils.clear(this);
         this.finish();
         startActivity(new Intent(this, HomeDrawerActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -148,6 +151,11 @@ public class UserInfoActivity extends AppCompatActivity {
     @OnClick(R.id.flPhone)
     public void modifyPhone() {
         showMyDialog(PHONE);
+    }
+
+    @OnClick(R.id.tvModify)
+    public void modifyPreferences() {
+        startActivity(new Intent(this, FavorSelectActivity.class));
     }
 
     private EditText etInput;

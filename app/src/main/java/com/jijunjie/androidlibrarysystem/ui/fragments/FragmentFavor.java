@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.jijunjie.androidlibrarysystem.adapter.FavourListAdapter;
 import com.jijunjie.androidlibrarysystem.model.Book;
 import com.jijunjie.androidlibrarysystem.ui.activity.BookDetailActivity;
 import com.jijunjie.myandroidlib.utils.ScreenUtils;
+import com.jijunjie.myandroidlib.utils.SharedPreferenceUtils;
 import com.jijunjie.myandroidlib.view.BannerView.BannerView;
 import com.jijunjie.myandroidlib.view.BannerView.BaseBannerEntity;
 
@@ -53,6 +55,7 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
     private ArrayList<Book> bannerModel;
     private Handler handler = new MyHandler(this);
     private int type = 0;
+    private ArrayList list;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +64,10 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
         Bundle arg = getArguments();
         if (arg != null) {
             type = arg.getInt("type");
+        }
+        String preferences = (String) SharedPreferenceUtils.get(getActivity(), "preferences", "");
+        if (!TextUtils.isEmpty(preferences)) {
+            list = new Gson().fromJson(preferences, ArrayList.class);
         }
         super.onCreate(savedInstanceState);
     }
@@ -131,10 +138,14 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                 if (type == 0) {
                     startActivity(new Intent(getActivity(), BookDetailActivity.class)
                             .putExtra("data", (Book) adapter.getItem(position - 1)));
+                    getActivity().overridePendingTransition(R.anim.default_push_left_in,
+                            R.anim.do_nothing_anim);
                 } else {
                     startActivity(new Intent(getActivity(), BookDetailActivity.class)
                             .putExtra("data", (Book) adapter.getItem(position))
                             .putExtra("type", type));
+                    getActivity().overridePendingTransition(R.anim.default_push_left_in,
+                            R.anim.do_nothing_anim);
                 }
             }
         });
@@ -191,6 +202,9 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
             }
             isLoading = true;
         }
+        if (type == 0 && list != null && list.size() > 0) {
+            bookQuery.addWhereContainedIn("className", list);
+        }
         bookQuery.order("bookID");
         bookQuery.setSkip(pageIndex * pageCount);
         Log.d("scroll tag", "page index = " + pageIndex);
@@ -219,7 +233,12 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                     String json = new Gson().toJson(book);
 
                     Log.d("book json String", json);
-                    if (book.getClassName().equals("旅游")) {
+                    String targetClass = "旅游";
+                    if (FragmentFavor.this.list != null) {
+                        if (!TextUtils.isEmpty((CharSequence) FragmentFavor.this.list.get(0)))
+                            targetClass = (String) FragmentFavor.this.list.get(0);
+                    }
+                    if (book.getClassName().equals(targetClass)) {
                         BaseBannerEntity entity = new BaseBannerEntity();
                         entity.setImgUrl(book.getBookImage().getFileUrl(getActivity()));
                         entity.setTitle(book.getBookName());

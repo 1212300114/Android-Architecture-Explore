@@ -11,7 +11,6 @@ import android.view.View;
 import com.jijunjie.androidlibrarysystem.R;
 import com.jijunjie.androidlibrarysystem.adapter.PagerFragmentAdapter;
 import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentAddBook;
-import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentDownBook;
 import com.jijunjie.androidlibrarysystem.ui.fragments.FragmentFavor;
 
 import java.util.ArrayList;
@@ -61,7 +60,6 @@ public class ManageActivity extends AppCompatActivity {
         ArrayList<String> titles = new ArrayList<>();
         titles.add("添加书籍");
         titles.add("修改书籍");
-        titles.add("下架书籍");
         return titles;
     }
 
@@ -73,7 +71,6 @@ public class ManageActivity extends AppCompatActivity {
         arg.putInt("type", 1);
         favor.setArguments(arg);
         fragments.add(favor);
-        fragments.add(new FragmentDownBook());
         return fragments;
     }
 

@@ -59,6 +59,9 @@ public class HomeDrawerActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         currentUser = User.getCurrentUser(this, User.class);
         initView();
     }
