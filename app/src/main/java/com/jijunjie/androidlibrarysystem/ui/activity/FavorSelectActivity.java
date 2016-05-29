@@ -70,19 +70,19 @@ public class FavorSelectActivity extends AppCompatActivity {
                     Log.e("result size", classNames.size() + "item");
                     adapter.setClassNames(classNames);
                     for (String names : classNames) {
-                        if (FavorSelectActivity.this.list.contains(names)) {
+                        if (FavorSelectActivity.this.list != null && FavorSelectActivity.this.list.contains(names)) {
                             int index = classNames.indexOf(names);
                             adapter.setSelectPosition(index);
                         }
                     }
-                    progressBar.setVisibility(View.GONE);
                 }
+                progressBar.setVisibility(View.GONE);
 
             }
 
             @Override
             public void onError(int i, String s) {
-
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -98,7 +98,7 @@ public class FavorSelectActivity extends AppCompatActivity {
 //        });
 //        toolbar.setNavigationContentDescription("跳过");
 //        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_white_24dp);
-        getSupportActionBar().setTitle("偏好选择");
+        toolbar.setTitle("偏好选择");
     }
 
 

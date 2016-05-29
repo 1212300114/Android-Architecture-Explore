@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/ivSplash"
-        android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/launch_image"/>
+        android:scaleType="fitXY"
+        android:src="@drawable/launch_image" />
 </LinearLayout>

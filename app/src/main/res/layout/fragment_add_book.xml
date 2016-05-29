@@ -253,7 +253,6 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:padding="2dp"
                 android:id="@+id/etAbstract"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
@@ -264,7 +263,8 @@
                 android:imeOptions="actionDone"
                 android:inputType="textMultiLine"
                 android:maxLength="200"
-                android:maxLines="5" />
+                android:maxLines="5"
+                android:padding="2dp" />
         </LinearLayout>
 
 

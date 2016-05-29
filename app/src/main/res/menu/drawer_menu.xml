@@ -8,26 +8,27 @@
             android:title="首页" />
 
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="管理书籍" />
-        <item
             android:id="@+id/nav_info_modify"
             android:icon="@drawable/ic_menu_manage"
             android:title="个人信息管理" />
+        <item
+            android:id="@+id/nav_request"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="需求新书" />
+
     </group>
 
-    <!--<item android:title="Communicate">-->
-        <!--<menu>-->
-            <!--<item-->
-                <!--android:id="@+id/nav_share"-->
-                <!--android:icon="@drawable/ic_menu_share"-->
-                <!--android:title="Share" />-->
-            <!--<item-->
-                <!--android:id="@+id/nav_send"-->
-                <!--android:icon="@drawable/ic_menu_send"-->
-                <!--android:title="Send" />-->
-        <!--</menu>-->
-    <!--</item>-->
+    <item android:title="管理员">
+        <menu>
+            <item
+                android:id="@+id/nav_manage"
+                android:icon="@drawable/ic_menu_share"
+                android:title="添加书籍" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="修改书籍" />
+        </menu>
+    </item>
 
 </menu>

@@ -238,6 +238,7 @@ public class FragmentFavor extends Fragment implements SwipeRefreshLayout.OnRefr
                         if (!TextUtils.isEmpty((CharSequence) FragmentFavor.this.list.get(0)))
                             targetClass = (String) FragmentFavor.this.list.get(0);
                     }
+                    Log.e("current class", targetClass);
                     if (book.getClassName().equals(targetClass)) {
                         BaseBannerEntity entity = new BaseBannerEntity();
                         entity.setImgUrl(book.getBookImage().getFileUrl(getActivity()));

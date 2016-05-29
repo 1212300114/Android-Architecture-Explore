@@ -38,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView tvRegister;
 
     private boolean isReader = true;
+    private static final String[] CDKEYS = {"abc", "edf"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,19 @@ public class RegisterActivity extends AppCompatActivity {
         String cdKey = etCDKey.getText().toString().trim();
         if (TextUtils.isEmpty(cdKey) && !isReader) {
             Toast.makeText(getApplicationContext(), "管理员需要输入cdKey", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        boolean flag = false;
+        for (String CDKEY : CDKEYS) {
+            if (cdKey.equals(CDKEY)) {
+                flag = true;
+                break;
+            } else {
+                flag = true;
+            }
+        }
+        if (!isReader && flag) {
+            Toast.makeText(getApplicationContext(), "cd key 不正确", Toast.LENGTH_SHORT).show();
             return;
         }
         doRegister(userName, password, cdKey);

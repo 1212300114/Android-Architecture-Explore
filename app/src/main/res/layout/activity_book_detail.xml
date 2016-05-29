@@ -33,139 +33,182 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ImageView
-        android:id="@+id/ivBook"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_below="@+id/barLayout"
-        android:layout_margin="10dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/common_images_error" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/barLayout">
 
-    <LinearLayout
-        android:id="@+id/llBookName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivBook"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="书    名"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/tvBook"
-            style="@style/Base.V12.Widget.AppCompat.EditText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="123"
-            android:textSize="17sp" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/barLayout"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llAuthor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/llBookName"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="作    者"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/ivBook"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
 
-        <EditText
-            android:id="@+id/tvAuthor"
-            style="@style/Base.V12.Widget.AppCompat.EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="郭敬明" />
-    </LinearLayout>
+                android:layout_margin="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/common_images_error" />
 
-    <LinearLayout
-        android:id="@+id/llPress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/llAuthor"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/llBookName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivBook"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="出版社"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="书    名"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/tvPress"
-            style="@style/Base.V12.Widget.AppCompat.EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="出版社"
-            android:textSize="17sp" />
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/tvBook"
+                    style="@style/Base.V12.Widget.AppCompat.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="123"
+                    android:textSize="17sp" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/llPress"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/llAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llBookName"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="剩    余"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="作    者"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
 
-        <EditText
-            android:inputType="number"
-            android:id="@+id/tvRemain"
-            style="@style/Base.V12.Widget.AppCompat.EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="剩余"
-            android:textSize="18sp" />
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/tvAuthor"
+                    style="@style/Base.V12.Widget.AppCompat.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="郭敬明" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvBorrow"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:text="预借"
-        android:textColor="@android:color/white"
-        android:textSize="18sp" />
+            <LinearLayout
+                android:id="@+id/llPress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llAuthor"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvDelete"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_above="@+id/tvBorrow"
-        android:layout_margin="10dp"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:text="删除"
-        android:textColor="@android:color/white"
-        android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="出版社"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/tvPress"
+                    style="@style/Base.V12.Widget.AppCompat.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="出版社"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llPress"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="剩    余"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/tvRemain"
+                    style="@style/Base.V12.Widget.AppCompat.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:inputType="number"
+                    android:text="剩余"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llPress"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="摘    要"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/tvAbstract"
+                    style="@style/Base.V12.Widget.AppCompat.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:inputType="textMultiLine"
+                    android:text="外出旅行时最需要的是什么？是最便捷的交通路线资讯，最经济的出行线路安排，最真实有趣的游玩体验，《中国自助游》无疑是你的贴身小助手，满足你一切旅途需求。
+　 经典畅销书15年的《中国自助游》每年都会不断更新升级，加入更多、更新鲜有趣的资讯，独家“游探”实地游带来的生动感受与以及旅游地第一手权威资讯，我们以专业旅行者的角度进行剖析，为你精选最独特的美食、最经济舒适的住宿环境、最有乐趣的游玩圣地。
+《中国自助游》2016年升级版持续引领未来旅游热潮，独家发布2016年旅游趋势报告，对全书2400处经典景点资讯全面复核评估，新增近150处热门景点，200余条经过验证的贴心小提示，并且更新了100幅景点图片，更多旅行之美等你来发现。
+　　伴随着众多忠实读者的支持，《中国自助游》已经走过了十余载春秋。渐渐地我们成为了许多读者不可或缺的亲密游伴，愿我们继续一同走下去，走得更远，走得更深，走遍世间的每一个角落。"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvBorrow"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="预借"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvDelete"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_above="@+id/tvBorrow"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
