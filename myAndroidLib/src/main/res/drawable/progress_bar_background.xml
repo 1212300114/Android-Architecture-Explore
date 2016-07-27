@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@android:id/background"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp">
+        <shape>
+            <corners android:radius="10dip" />
+            <solid android:color="#6b4c34" />
+        </shape>
+    </item>
+
+    <item
+        android:id="@android:id/progress"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp">
+        <clip>
+            <shape>
+                <corners android:radius="10dip" />
+                <solid android:color="#bd7646" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>
