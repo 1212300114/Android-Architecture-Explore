@@ -1,6 +1,7 @@
 package com.jijunjie.myandroidlib.base;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,10 +10,8 @@ import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import com.jijunjie.myandroidlib.R;
 import com.jijunjie.myandroidlib.utils.LogUtils;
-import com.lansen.oneforgem.R;
-
-import butterknife.Bind;
 
 /**
  * @author Gary Ji
@@ -20,9 +19,9 @@ import butterknife.Bind;
  * @date 2016/5/11 0011.
  */
 public abstract class BaseRecyclerFragment extends BaseFragment {
-    @Bind(R.id.recyclerView)
+    //    @Bind(R.id.recyclerView)
     public RecyclerView recyclerView;
-    @Bind(R.id.pull_refresh)
+    //    @Bind(R.id.pull_refresh)
     public PtrClassicFrameLayout ptrLayout;
     private boolean loadMoreEnable = false;
     protected int pageSize = 10;
@@ -30,9 +29,18 @@ public abstract class BaseRecyclerFragment extends BaseFragment {
 
     @Override
     protected void initViews(View root) {
+        recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
+        ptrLayout = (PtrClassicFrameLayout) root.findViewById(R.id.pull_refresh);
         initRecyclerView();
         initExtraViews();
         initPtrLayout();
+
+    }
+
+    @NonNull
+    @Override
+    protected int getRootLayoutResId() {
+        return R.layout.base_recycler_fragment;
     }
 
     @Override

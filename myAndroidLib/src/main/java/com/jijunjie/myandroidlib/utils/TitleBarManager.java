@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.lansen.oneforgem.R;
+import com.jijunjie.myandroidlib.R;
+
 
 /**
  * @author Gary Ji

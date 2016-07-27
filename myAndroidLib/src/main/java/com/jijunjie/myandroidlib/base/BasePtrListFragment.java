@@ -6,9 +6,7 @@ import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
-import com.lansen.oneforgem.R;
-
-import butterknife.Bind;
+import com.jijunjie.myandroidlib.R;
 
 
 /**
@@ -18,7 +16,7 @@ import butterknife.Bind;
  * @date 2016/5/11 0011.
  */
 public abstract class BasePtrListFragment extends BaseListFragment {
-    @Bind(R.id.pull_refresh)
+//    @Bind(R.id.pull_refresh)  butter knife need final var so can't use in lib
     protected PtrClassicFrameLayout ptrLayout;
     private boolean loadMoreEnable = false;
     protected int pageSize = 10;
@@ -27,6 +25,7 @@ public abstract class BasePtrListFragment extends BaseListFragment {
     @Override
     protected void initViews(View root) {
         super.initViews(root);
+        ptrLayout = (PtrClassicFrameLayout) root.findViewById(R.id.pull_refresh);
         initPtrLayout();
     }
 
@@ -35,6 +34,7 @@ public abstract class BasePtrListFragment extends BaseListFragment {
      */
 
     protected void initPtrLayout() {
+
         ptrLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

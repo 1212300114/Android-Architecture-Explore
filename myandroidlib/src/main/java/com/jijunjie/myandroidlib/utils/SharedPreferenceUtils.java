@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * method class to handle shared preference
- * <p/>
- * Created by jijunjie on 16/2/29.
+ * @author Gary Ji
+ * @description method class to handle shared preference I/O
+ * @date 16/2/29.
  */
 public class SharedPreferenceUtils {
     //the key of preference

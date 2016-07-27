@@ -70,7 +70,7 @@ public class BannerIndicatorAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         if (current == position) {
-            viewHolder.pointView.setImageResource(R.drawable.common_point_select);
+            viewHolder.pointView.setImageResource(R.drawable.custom_point_select);
         } else {
             viewHolder.pointView.setImageResource(R.drawable.common_point_nomal);
         }

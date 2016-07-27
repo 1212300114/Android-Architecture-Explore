@@ -1,4 +1,32 @@
 <resources>
     <string name="app_name">MyAndroidLib</string>
     <string name="placeholder_title">标题要长要长要长要长要长----------</string>
+    <string name="user_id">ID</string>
+    <string name="pickerview_cancel">取消</string>
+    <string name="pickerview_submit">确定</string>
+    <string name="pickerview_year">年</string>
+    <string name="pickerview_month">月</string>
+    <string name="pickerview_day">日</string>
+    <string name="pickerview_hours">时</string>
+    <string name="pickerview_minutes">分</string>
+    <string name="pickerview_seconds">秒</string>
+
+
+
+
+    <!--//XScrollView resource-->
+    <string name="header_hint_refresh_normal">下拉刷新</string>
+    <string name="header_hint_refresh_ready">松开刷新</string>
+    <string name="header_hint_refresh_loading">正在加载…</string>
+    <string name="header_hint_refresh_time">Time：</string>
+    <string name="footer_hint_load_normal">上拉加载更多</string>
+    <string name="footer_hint_load_ready">松开进入图文详情</string>
+
+
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
 </resources>

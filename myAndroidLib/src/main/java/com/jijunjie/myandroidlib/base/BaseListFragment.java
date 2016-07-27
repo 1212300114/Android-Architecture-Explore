@@ -3,9 +3,7 @@ package com.jijunjie.myandroidlib.base;
 import android.view.View;
 import android.widget.ListView;
 
-import com.lansen.oneforgem.R;
-
-import butterknife.Bind;
+import com.jijunjie.myandroidlib.R;
 
 /**
  * @author Gary Ji
@@ -13,13 +11,14 @@ import butterknife.Bind;
  * @date on 2016/5/11 0011.
  */
 public abstract class BaseListFragment extends BaseFragment {
-    @Bind(R.id.listView)
+//    @Bind(R.id.listView)
     protected ListView listView;
 
 
     @Override
     protected void initViews(View root) {
         initExtraViews();
+        listView = (ListView) root.findViewById(R.id.listView);
         initListView();
     }
 

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.jijunjie.myandroidlib.R;
-import com.jijunjie.myandroidlib.utils.DrawableUtils;
+import com.jijunjie.myandroidlib.utils.ImageUtils;
 
 import java.util.ArrayList;
 
@@ -33,35 +33,35 @@ public class BannerPageAdapter extends PagerAdapter {
     /**
      * to set the data and refresh the viewpager
      *
-     * @param subViews    the data pass in
-     * @param loopEnabled control the data should be loop or not
+     * @param subViewsData the data pass in
+     * @param loopEnabled  control the data should be loop or not
      */
 
-    public void setDataWithLoopEnabled(ArrayList<BaseBannerEntity> subViews, boolean loopEnabled) {
-        if (subViews == null) {
+    public void setDataWithLoopEnabled(ArrayList<BaseBannerEntity> subViewsData, boolean loopEnabled) {
+        if (subViewsData == null) {
             throw new NullPointerException("hey guy what the fuck are you doing with a null data for me !");
         }
         if (loopEnabled) {
-            if (subViews.size() > 1) {
+            if (subViewsData.size() > 1) {
                 // make the new length
-                for (int i = 0; i < subViews.size() + 2; i++) {
+                for (int i = 0; i < subViewsData.size() + 2; i++) {
                     if (i == 0) {
                         //add the last data at the first of new list
-                        this.bannerEntities.add(subViews.get(subViews.size() - 1));
-                    } else if (i == subViews.size() + 1) {
+                        this.bannerEntities.add(subViewsData.get(subViewsData.size() - 1));
+                    } else if (i == subViewsData.size() + 1) {
                         //add the first data at the last of new list
-                        this.bannerEntities.add(subViews.get(0));
+                        this.bannerEntities.add(subViewsData.get(0));
                     } else {
-                        this.bannerEntities.add(subViews.get(i - 1));
+                        this.bannerEntities.add(subViewsData.get(i - 1));
                     }
                 }
             } else {
                 //if only one don't do that thing
-                this.bannerEntities = subViews;
+                this.bannerEntities = subViewsData;
             }
 
         } else {
-            this.bannerEntities = subViews;
+            this.bannerEntities = subViewsData;
         }
         notifyDataSetChanged();
     }
@@ -88,22 +88,24 @@ public class BannerPageAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        ImageView itemView = (ImageView) LayoutInflater.from(context).inflate(R.layout.base_banner_item, null);
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == R.id.base_banner_item) {
-                    if (onItemClickListener != null) {
+        ImageView itemView = (ImageView) LayoutInflater.from(context).inflate(itemID, container, false);
+        itemView.setImageResource(R.drawable.common_images_normal);
+        if (onItemClickListener != null) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.getId() == R.id.base_banner_item) {
                         BannerPageAdapter.this
                                 .onItemClickListener.click(v, bannerEntities.get(position), position);
                     }
                 }
-            }
-        });
+            });
+        }
         container.addView(itemView);
+
         BaseBannerEntity currentData = bannerEntities.get(position);
         if (!TextUtils.isEmpty(currentData.getImgUrl())) {
-            DrawableUtils.displayNormalImgOnNet(itemView, currentData.getImgUrl());
+            ImageUtils.displayNormalImgOnNet(itemView, currentData.getImgUrl());
         }
         return itemView;
     }

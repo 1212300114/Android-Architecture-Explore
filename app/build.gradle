@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.jijunjie.androidlibrarysystem"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -15,6 +15,20 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    aaptOptions {
+        additionalParameters "--no-version-vectors"
+    }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+//    signingConfigs {
+//        debug {
+//            storeFile file("C:\\Users\\Administrator\\Desktop\\wechatDemo\\debug.keystore")
+//        }
+//    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
 }

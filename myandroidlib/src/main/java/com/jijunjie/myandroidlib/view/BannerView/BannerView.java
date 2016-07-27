@@ -8,12 +8,14 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jijunjie.myandroidlib.R;
+import com.jijunjie.myandroidlib.utils.LogUtils;
 import com.jijunjie.myandroidlib.utils.ScreenUtils;
 
 import java.util.ArrayList;
@@ -35,9 +37,10 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
     private BannerPageAdapter pageAdapter;
     private GridView bannerIndicator;
     private BannerIndicatorAdapter indicatorAdapter;
-    private RelativeLayout rlBottom;
     //callback of click
     private onBannerClickListener onBannerClickListener;
+    private RelativeLayout rlBottom;
+    private FrameLayout flPlaceHolder;
 
     /**
      * Instantiates a new Banner view.
@@ -96,7 +99,7 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
      */
     private void initModel() {
         pageAdapter = new BannerPageAdapter(getContext());
-        pageAdapter.setOnItemClickListener(this);
+
         indicatorAdapter = new BannerIndicatorAdapter(getContext());
     }
 
@@ -104,7 +107,7 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
      * to init subviews of the banner;
      */
     private void initView() {
-        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.base_banner_layout, null);
+        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.base_banner_layout, this, false);
         this.addView(rootView);
         bannerTitle = (TextView) rootView.findViewById(R.id.bannerTitle);
         bannerViewPager = (ChildViewPager) rootView.findViewById(R.id.bannerPager);
@@ -113,9 +116,9 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
         bannerIndicator = (GridView) rootView.findViewById(R.id.bannerIndicator);
         bannerIndicator.setAdapter(indicatorAdapter);
         bannerTitle = (TextView) rootView.findViewById(R.id.bannerTitle);
-        rlBottom = (RelativeLayout) findViewById(R.id.rlBottom);
+        rlBottom = (RelativeLayout) rootView.findViewById(R.id.rlBottom);
         rlBottom.setVisibility(GONE);
-
+        flPlaceHolder = (FrameLayout) rootView.findViewById(R.id.flPlaceHolder);
     }
 
 
@@ -124,6 +127,9 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
         if (this.onBannerClickListener != null) {
             if (loopEnabled) {
                 position -= 1;
+            }
+            if (bannerEntities.size() == 1) {
+                position = 0;
             }
             this.onBannerClickListener.click(entity, position);
         }
@@ -135,6 +141,7 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
      * @param onBannerClickListener callback
      */
     public void setOnBannerClickListener(BannerView.onBannerClickListener onBannerClickListener) {
+        pageAdapter.setOnItemClickListener(this);
         this.onBannerClickListener = onBannerClickListener;
     }
 
@@ -159,12 +166,13 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
      * @param bannerEntities the data for banner
      * @param loopEnabled    the banner can scroll without bounds
      */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void setBannerEntitiesAndLoopEnable(final ArrayList<BaseBannerEntity> bannerEntities, boolean loopEnabled) {
-        if (bannerEntities.size() == 0) {
-            throw new NullPointerException("your data is empty");
-        }
+        if (bannerEntities.size() == 0)
+            return;
         this.bannerEntities = bannerEntities;
         this.loopEnabled = loopEnabled;
+
         // set data to view pager adapter
         pageAdapter.setDataWithLoopEnabled(bannerEntities, loopEnabled);
         if (loopEnabled) {
@@ -180,13 +188,23 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
         bannerIndicator.getLayoutParams().width = defaultPointWidth * bannerEntities.size();
         // request layout toto make new layout
         bannerIndicator.requestLayout();
-        // show the bottom bar
-        rlBottom.setVisibility(VISIBLE);
-        if (!TextUtils.isEmpty(bannerEntities.get(0).getTitle())) {
+        if (TextUtils.isEmpty(bannerEntities.get(0).getTitle())) {
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) bannerIndicator.getLayoutParams();
+            layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+            layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            bannerIndicator.invalidate();
+            bannerTitle.setVisibility(GONE);
+        } else {
+            bannerTitle.setVisibility(VISIBLE);
             bannerTitle.setText(bannerEntities.get(0).getTitle());
         }
+        rlBottom.setVisibility(VISIBLE);
+        flPlaceHolder.setVisibility(GONE);
     }
 
+    public void hideBottom() {
+        rlBottom.setVisibility(GONE);
+    }
 
     /**
      * Sets auto play.
@@ -195,12 +213,17 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
     boolean autoPlay = false;
 
     public void setAutoPlay(long delay) {
-        this.delay = delay;
-        autoPlay = true;
-        postDelayed(playTask, delay);
+        if (null != bannerEntities && bannerEntities.size() > 1) {
+            this.delay = delay;
+            autoPlay = true;
+            postDelayed(playTask, delay);
+        }
     }
 
     public void setAutoPlay() {
+        if (autoPlay) {
+            return;
+        }
         setAutoPlay(delay);
     }
 
@@ -214,25 +237,27 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
     private Runnable playTask = new Runnable() {
         @Override
         public void run() {
-            try {
-                currentItem++;
-                currentItem = currentItem % bannerEntities.size();
-//            Log.e("current item = ", "current = " + currentItem);
-                if (loopEnabled) {
-                    bannerViewPager.setCurrentItem(currentItem + 1);
-                } else {
-                    bannerViewPager.setCurrentItem(currentItem);
-                }
-//            Log.e("task delay", delay +"");
-                if (autoPlay) {
-                    postDelayed(playTask, delay);
-                }
-            } catch (Exception e) {
-                autoPlay = false;
-                e.printStackTrace();
-            }
+            update();
         }
     };
+
+    private synchronized void update() {
+        try {
+            currentItem++;
+            currentItem = currentItem % bannerEntities.size();
+            if (loopEnabled) {
+                bannerViewPager.setCurrentItem(currentItem + 1);
+            } else {
+                bannerViewPager.setCurrentItem(currentItem);
+            }
+            if (autoPlay) {
+                postDelayed(playTask, delay);
+            }
+        } catch (Exception e) {
+            autoPlay = false;
+            e.printStackTrace();
+        }
+    }
 
     //to stop auto play thread;
     public void stopAutoPlay() {
@@ -247,29 +272,26 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//        Log.e("pageScroll", "current position" + position + " position offset = " + position
-//                + " offset pixels = " + positionOffsetPixels);
 
     }
 
     @Override
     public void onPageSelected(int position) {
         currentPosition = position;
+        LogUtils.d("before = " + position);
         if (loopEnabled) {
             position = generateCorrectPosition(position);
 //            bannerViewPager.setCurrentItem(position);
         }
+        LogUtils.d("after = " + position);
         bannerTitle.setText(bannerEntities.get(position).getTitle());
         indicatorAdapter.setCurrent(position);
-//        Log.e("pageSelected", "selected position" + position);
     }
 
     private int generateCorrectPosition(int position) {
         if (position == bannerEntities.size() + 1) {
-//            bannerViewPager.setCurrentItem(1, false);
             position = 0;
         } else if (position == 0) {
-//            bannerViewPager.setCurrentItem(bannerEntities.size(), false);
             position = bannerEntities.size() - 1;
         } else {
             position = position - 1;
@@ -280,10 +302,9 @@ public class BannerView extends LinearLayout implements BannerPageAdapter.onItem
     // do scroll inside here
     @Override
     public void onPageScrollStateChanged(int state) {
-//        Log.e("pageChange", "current state = " + state + "currentPosition" + currentPosition);
         if (state == ViewPager.SCROLL_STATE_IDLE) {
             if (loopEnabled) {
-                currentItem = currentPosition + 1;
+                currentItem = currentPosition - 1;
                 //when it finish animation move to the correct position
                 if (currentPosition == 0) {
                     bannerViewPager.setCurrentItem(bannerEntities.size(), false);

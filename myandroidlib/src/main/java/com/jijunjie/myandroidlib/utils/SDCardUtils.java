@@ -8,8 +8,9 @@ import android.os.StatFs;
 import java.io.File;
 
 /**
- * SD card check method class
- * Created by jijunjie on 16/2/29.
+ * @author Gary Ji
+ * @date on 16/2/29.
+ * @description SD card helper class to handle sd card state and get path
  */
 public class SDCardUtils {
     private SDCardUtils() {
@@ -38,7 +39,7 @@ public class SDCardUtils {
     /**
      * get the remain si of the sd card
      *
-     * @return long   - the size of remain
+     * @return long   - the size of remain sd card space
      */
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
