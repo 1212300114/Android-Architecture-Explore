@@ -28,6 +28,7 @@ public class NetWorkState {
     public static boolean isNetWorkEnable(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (manager != null) {
+
             NetworkInfo info = manager.getActiveNetworkInfo();
             if (info != null) {
                 return info.isAvailable();
