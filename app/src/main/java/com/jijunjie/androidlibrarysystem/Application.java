@@ -6,7 +6,7 @@ import com.jijunjie.myandroidlib.base.BaseApplication;
  * Created by jijunjie on 16/9/27.
  */
 
-public class Applicaition extends BaseApplication {
+public class Application extends BaseApplication {
     @Override
     protected void onCreateCallback() {
 
