@@ -33,7 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @ColorRes
     private int tintColorRes = R.color.appThemeColorTitle;
     // whether to show title bar
-    private boolean needShowTitle = true;
+    private boolean needShowTitle = false;
     // the title bar helper class
     protected TitleBarManager helper;
 

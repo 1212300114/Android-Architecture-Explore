@@ -71,16 +71,18 @@ public class FavourListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         // get data to view through view holder
-
-        viewHolder.tvBook.setText(books.get(position).getBookName());
-        viewHolder.tvClass.setText(books.get(position).getClassName());
-        viewHolder.tvAuthor.setText(books.get(position).getBookAuthor());
-        DrawableUtils.displayNormalImgOnNet(viewHolder.ivBook, books.get(position).getBookImage().getFileUrl(context));
-        // set click event here
+        if (books.get(position) != null) {
+            viewHolder.tvBook.setText(books.get(position).getBookName());
+            viewHolder.tvClass.setText(books.get(position).getClassName());
+            viewHolder.tvAuthor.setText(books.get(position).getBookAuthor());
+            if (books.get(position).getBookImage() != null)
+                DrawableUtils.displayNormalImgOnNet(viewHolder.ivBook, books.get(position).getBookImage().getFileUrl(context));
+            // set click event here
+        }
         return convertView;
     }
 
-    class ViewHolder {
+    private class ViewHolder {
         TextView tvBook, tvAuthor, tvClass;
         ImageView ivBook;
     }

@@ -1,5 +1,8 @@
 package com.jijunjie.androidlibrarysystem.ui.activity;
 
+import android.content.Intent;
+import android.os.Handler;
+
 import com.jijunjie.androidlibrarysystem.R;
 import com.jijunjie.myandroidlib.base.BaseActivity;
 
@@ -15,7 +18,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void setUpViews() {
-
+        onActivityCreateCallBack();
     }
 
     @Override
@@ -25,29 +28,22 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void getArgAndConfig() {
+        setNeedShowTitle(false);
+    }
+
+    protected void onActivityCreateCallBack() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                launchActivity(SplashActivity.this, new Intent(SplashActivity.this  , HomeDrawerActivity.class));
+            }
+        }, 3000);
 
     }
 
-//    @Override
-//    protected void onActivityCreateCallBack() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                finishSelfWithAnimation(0);
-//                launchActivityWithAnimation(SplashActivity.this, HomeDrawerActivity.class, null, 0);
-//            }
-//        }, 3000);
-//
-//    }
-//
-//    @Nullable
-//    @Override
-//    protected Toolbar toGetToolBar() {
-//        return null;
-//    }
-//
-//
-//    @Override
-//    public void onBackPressed() {
-//    }
+
+
+
+
 }
